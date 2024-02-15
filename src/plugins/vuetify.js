@@ -15,14 +15,15 @@ const myCustomLightTheme = {
   dark: false,
   colors: {
     primary: "#80162B",
-    secondary: "#E1E1E1",
+    secondary: "#82B1FF",
     accent: "#47121D",
     success: "#47121D",
     error: "#EE5044",
     teal: "#63BAC0",
-    blue: "#196CA2",
+    blue: "#1976D2",
     yellow: "#F8C545",
     darkblue: "#032F45",
+    gray: "#F0F0F0",
   },
 };
 
