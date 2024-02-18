@@ -9,13 +9,14 @@ const categories = ref([]);
 const catNames = ref([])
 
 async function getCategory() {
-    try{
-        const response = await CategoryServices.getAll();
-        categories.value = response.data;
-        console.log(respone);
-    } catch (err) {
-        console.log(err);
-    }
+    await CategoryServices.getAll()
+        .then((response) => {
+            console.log(response);
+            categories.value= response.data;
+        })
+        .catch((err) => {
+                console.log(err);
+        })
 }
 
 onMounted(async() => {
@@ -36,16 +37,26 @@ onMounted(async() => {
     <v-dataTable class="display">
         <thead>
             <tr>
-                <th>Category Name</th>
-                <th>View</th>
+                <th style="font-weight: bolder;">Category Name</th>
+                <th style="font-weight: bolder; text-align: right;">View</th>
+            </tr>
+            <tr v-for="c in categories">
+                <th>
+                    {{ c.catName }}
+                </th>
+                <th>
+                    <div style="display: flex; justify-content: end;">
+                    <td class="pr-5">
+                        <v-btn color="blue" elevation="1">view</v-btn>
+                    </td>
+                    <td class="pl-5">
+                        <v-btn color="gray" elevation="1">hide</v-btn>
+                    </td>
+                    </div>
+                </th>
             </tr>
         </thead>
     </v-dataTable>
-
-    <!-- Add New Category Button -->
-    <!-- TODO Add btn functionality -->
-    <!-- TODO Make btn text white -->
-    <v-btn prepend-icon="mdi-plus" color="secondary">Add New Category</v-btn>
 
     <!-- Add Category Display -->
     <!-- TODOAdd API functionality -->
