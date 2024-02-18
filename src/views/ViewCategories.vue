@@ -1,9 +1,26 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import CategoryServices from "../services/categorySerices"
  
 const router = useRouter();
 
+const categories = ref([]);
+const catNames = ref([])
+
+async function getCategory() {
+    try{
+        const response = await CategoryServices.getAll();
+        categories.value = response.data;
+        console.log(respone);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+onMounted(async() => {
+    await getCategory();
+})
 </script>
 
 <template>
