@@ -3,6 +3,7 @@
 <template>
     <div>
         <v-navigation-drawer
+            disable-resize-watcher
             expand-on-hover
             rail
             color="silver"
