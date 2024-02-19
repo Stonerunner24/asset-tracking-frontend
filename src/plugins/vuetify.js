@@ -24,6 +24,7 @@ const myCustomLightTheme = {
     yellow: "#F8C545",
     darkblue: "#032F45",
     gray: "#F0F0F0",
+    silver: "#D5DFE7"
   },
 };
 
