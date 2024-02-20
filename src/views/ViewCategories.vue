@@ -6,8 +6,8 @@
   import router from "../router";
   
   const categories = ref([]);
-  const tab = ref("visible");
-  const hideBtn = ref("hide")
+  const tab = ref("active");
+  const hideBtn = ref("deactivate")
   const newCategory = ref("");
 
   const headers = ref([
@@ -25,17 +25,17 @@
   }
   
   const currentCategories = computed(() => {
-    return tab.value === "visible"
+    return tab.value === "active"
       ? categories.value.filter(c => c.active)
       : categories.value.filter(c => !c.active);
   });
   
   function toggleTab(selectedTab) {
     tab.value = selectedTab;
-    if (selectedTab === 'hidden') {
-      hideBtn.value = 'Unhide';
+    if (selectedTab === 'inactive') {
+      hideBtn.value = 'activate';
     } else {
-      hideBtn.value = 'Hide';
+      hideBtn.value = 'deactivate';
     }
   }
   
@@ -57,7 +57,7 @@
   
   async function hideCategory(category) {
   try {
-    let data = { active: tab.value === 'hidden' ? 1 : 0 };
+    let data = { active: tab.value === 'inactive' ? 1 : 0 };
     await categorySerices.update(category.id, data);
 
     await getCategory();
@@ -82,8 +82,8 @@
   
       <!-- Category Data Table -->
       <v-tabs v-model="tab" color="blue">
-        <v-tab value="visible" @click="toggleTab('visible')">Visible</v-tab>
-        <v-tab value="hidden" @click="toggleTab('hidden')">Hidden</v-tab>
+        <v-tab value="active" @click="toggleTab('active')">active</v-tab>
+        <v-tab value="inactive" @click="toggleTab('inactive')">inactive</v-tab>
       </v-tabs>
 
   
@@ -103,6 +103,7 @@
   
       <!-- Add Category Display -->
       <div class="pt-10">
+        <div style="font-size: large;">Add New Category</div>
         <v-card color="gray" class="pa-4">
           <v-row align="center" class="mr-2">
             <v-col cols="4">
