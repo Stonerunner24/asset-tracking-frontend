@@ -1,9 +1,11 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
   import CategoryServices from "../services/categorySerices";
+  import Sidebar from "../components/SideBar.vue";
   
   const categories = ref([]);
   const tab = ref("visible");
+  const hideBtn = ref("hide")
   const newCategory = ref("");
 
   const headers = ref([
@@ -28,7 +30,13 @@
   
   function toggleTab(selectedTab) {
     tab.value = selectedTab;
-  }
+    if (selectedTab === 'hidden') {
+      hideBtn.value = 'Unhide';
+    } else {
+      hideBtn.value = 'Hide';
+    }
+}
+
   
   async function saveCategory() {
     // TODO Implement saving of new category using CategoryServices
@@ -43,9 +51,7 @@
   }
   
   function hideCategory(category) {
-    // TODO Implement hiding of category
-    // & make catgory now hidden
-    // ^ will need api calls
+    console.log('hiding...')
   }
   
   onMounted(async () => {
@@ -54,6 +60,10 @@
 </script>
   
 <template>
+  <v-container>
+    <Sidebar />
+  </v-container>
+
     <div class="ma-15 mt-7">
       <!-- Page Title -->
       <div style="font-size: x-large;">Category Lookup</div>
@@ -61,7 +71,7 @@
       <!-- Category Data Table -->
       <v-tabs color="blue">
         <v-tab :value="tab" @click="toggleTab('visible')">Visible</v-tab>
-        <v-tab :value="tab" @click="toggleTab('hidden')">Hidden</v-tab>
+        <v-tab :value="tab" @click="toggleTab('hidden')">Hide</v-tab>
       </v-tabs>
   
       <v-data-table :items="currentCategories" class="display" :headers="headers">
@@ -72,7 +82,7 @@
                 <!-- View button -->
                 <v-btn elevation="1" size="small" color="blue" @click="viewCategory(item)" class="mr-10">View</v-btn>
                 <!-- Hide button -->
-                <v-btn elevation="1" size="small" color="gray" @click="hideCategory(item)">Hide</v-btn>
+                <v-btn elevation="1" size="small" color="gray" @click="hideCategory(item)">{{ hideBtn }}</v-btn>
             </td>
           </tr>
         </template>
