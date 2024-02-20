@@ -47,7 +47,7 @@
         title="Filters"
         color="card"
     >
-        <v-container>
+        <div class="ml-12 mr-12">
             <v-row >
                 <v-col class="text-left">
                     <v-combobox
@@ -85,9 +85,9 @@
                     </v-btn>
                 </v-col>
             </v-row>
-        </v-container>
+        </div>
     </v-card>
-    <v-container class="pl-6 pr-10">
+    <div class="ml-12 mr-12">
         <v-text-field
             v-model="search"
             label="Search"
@@ -115,6 +115,6 @@
 
 
         </v-data-table>
-    </v-container>
+    </div>
     
 </template>
