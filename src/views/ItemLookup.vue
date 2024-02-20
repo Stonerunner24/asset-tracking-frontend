@@ -29,6 +29,11 @@
             })
     };
 
+    const viewItem = (item) => {
+        //TODO: NAVIGATE TO PROPER ITEM PAGE ON CLICK
+        console.log("Navigate to View Item with ID " + item.id);
+    }
+
 </script>
 
 <template>
@@ -41,8 +46,8 @@
         color="card"
     >
         <v-container>
-            <v-row class="pr-16">
-                <v-col class="ml-2">
+            <v-row >
+                <v-col class="text-left">
                     <v-combobox
                         chips
                         closable-chips
@@ -50,7 +55,7 @@
                     ></v-combobox>
                     <!-- FILTER OFF TYPE -->
                 </v-col>
-                <v-col class="ml-n2">
+                <v-col>
                     <v-combobox
                         chips
                         closable-chips
@@ -58,7 +63,7 @@
                     ></v-combobox>
                     <!-- FILTER OFF CATEGORY -->
                 </v-col>
-                <v-col class="ml-n2 mr-16">
+                <v-col>
                     <v-combobox
                         chips
                         closable-chips
@@ -68,9 +73,9 @@
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
-                <v-col class="mt-2">
+                <v-col class="text-right">
                     <v-btn
-                        class="ml-16"
+                        class=""
                         color="blue"
                         size="large"
                     >
@@ -94,6 +99,18 @@
             :items="items"
             :search="search"
         >
+        <template v-slot:item="{item}">
+            <tr>
+                <td>{{ item.serialNum }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.model.model }}</td>
+                <td>{{ item.model.type.typeName }}</td>
+                <td>
+                    <v-btn elevation="1" size="small" color="blue" @click="viewItem(item)" >View</v-btn>
+                </td>
+            </tr>
+        </template>
+
 
         </v-data-table>
     </v-container>
