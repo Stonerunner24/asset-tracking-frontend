@@ -9,6 +9,7 @@ import ViewTutorial from "./views/ViewTutorial.vue";
 import AddLesson from "./views/AddLesson.vue";
 import EditLesson from "./views/EditLesson.vue";
 
+import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 
 const router = createRouter({
@@ -58,6 +59,12 @@ const router = createRouter({
       path: "/viewCategories/",
       name: "viewCategories",
       component: ViewCategories,
+      props: true,
+    },
+    {
+      path: "/viewCategory/",
+      name: "viewCategory",
+      component: ViewCategory,
       props: true,
     },
   ],

@@ -2,6 +2,8 @@
   import { ref, onMounted, computed } from "vue";
   import CategoryServices from "../services/categorySerices";
   import Sidebar from "../components/SideBar.vue";
+  import categorySerices from "../services/categorySerices";
+  import router from "../router";
   
   const categories = ref([]);
   const tab = ref("visible");
@@ -35,8 +37,7 @@
     } else {
       hideBtn.value = 'Hide';
     }
-}
-
+  }
   
   async function saveCategory() {
     // TODO Implement saving of new category using CategoryServices
@@ -44,16 +45,20 @@
   }
   
   function viewCategory(category) {
-    // TODO Implement viewing of category details
-    // & view single category
-    // ? not necessary if clickable?
-    // * eli and trina want clickable
+    router.push("/viewCategory");
   }
   
-  function hideCategory(category) {
-    console.log('hiding...')
+  async function hideCategory(category) {
+  try {
+    const data = { active: tab.value === 'hidden' ? 1 : 0 };
+    await categorySerices.update(category.id, data);
+
+    await getCategory();
+  } catch (error) {
+    console.error("Error hiding/unhiding category:", error);
   }
-  
+}
+
   onMounted(async () => {
     await getCategory();
   });
@@ -69,10 +74,11 @@
       <div style="font-size: x-large;">Category Lookup</div>
   
       <!-- Category Data Table -->
-      <v-tabs color="blue">
-        <v-tab :value="tab" @click="toggleTab('visible')">Visible</v-tab>
-        <v-tab :value="tab" @click="toggleTab('hidden')">Hide</v-tab>
+      <v-tabs v-model="tab" color="blue">
+        <v-tab value="visible" @click="toggleTab('visible')">Visible</v-tab>
+        <v-tab value="hidden" @click="toggleTab('hidden')">Hide</v-tab>
       </v-tabs>
+
   
       <v-data-table :items="currentCategories" class="display" :headers="headers">
         <template v-slot:item="{ item }">
