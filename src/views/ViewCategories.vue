@@ -40,8 +40,15 @@
   }
   
   async function saveCategory() {
-    // TODO Implement saving of new category using CategoryServices
-    // & saves new category
+    console.log(newCategory.value)
+    let data = { 
+      id: null,
+      catName: newCategory.value,
+      active: 1,
+    }
+    await categorySerices.create(data);
+    await getCategory();
+    newCategory.value = '';
   }
   
   function viewCategory(category) {
@@ -50,7 +57,7 @@
   
   async function hideCategory(category) {
   try {
-    const data = { active: tab.value === 'hidden' ? 1 : 0 };
+    let data = { active: tab.value === 'hidden' ? 1 : 0 };
     await categorySerices.update(category.id, data);
 
     await getCategory();
@@ -76,7 +83,7 @@
       <!-- Category Data Table -->
       <v-tabs v-model="tab" color="blue">
         <v-tab value="visible" @click="toggleTab('visible')">Visible</v-tab>
-        <v-tab value="hidden" @click="toggleTab('hidden')">Hide</v-tab>
+        <v-tab value="hidden" @click="toggleTab('hidden')">Hidden</v-tab>
       </v-tabs>
 
   
@@ -99,7 +106,7 @@
         <v-card color="gray" class="pa-4">
           <v-row align="center" class="mr-2">
             <v-col cols="4">
-              <v-text-field v-model="newCategory" label="Category Name"></v-text-field>
+              <v-text-field v-model="newCategory" label="Category Name" clearable></v-text-field>
             </v-col>
             <v-col cols="8" class="text-right">
               <v-btn color="blue" @click="saveCategory">Save</v-btn>
