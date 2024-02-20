@@ -1,6 +1,6 @@
-# Tutorial Frontend in Vue 3
+# Oklahoma Christian University Asset Tracking Frontend in Vue 3
 
-This application allows users to create and maintain a list of tutorials that can have multiple lessons within. Please visit https://github.com/OC-ComputerScience/tutorial-backend for the backend repository.
+This application allows users to create and maintain a list of tutorials that can have multiple lessons within. Please visit https://github.com/Stonerunner24/asset-tracking-backend for the backend repository.
 
 #### Please note:
 
@@ -13,7 +13,7 @@ This application allows users to create and maintain a list of tutorials that ca
 1. Clone the project into your **XAMPP/xamppfiles/htdocs** directory.
 
 ```
-git clone https://github.com/OC-ComputerScience/tutorial-frontend-vue3.git
+git clone https://github.com/Stonerunner24/asset-tracking-frontend.git
 ```
 
 2. Install the project.
