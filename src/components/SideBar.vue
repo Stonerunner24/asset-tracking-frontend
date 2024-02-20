@@ -8,6 +8,8 @@
             rail
             color="silver"
             width="200"
+            floating="true"
+            permanent="true"
         >
             <v-list>
                 <v-list-item

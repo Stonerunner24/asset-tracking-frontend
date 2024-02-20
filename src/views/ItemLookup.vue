@@ -1,6 +1,7 @@
 <script setup>
     import { onMounted, ref } from "vue";
     import ItemServices from "../services/itemServices";
+    import router from "../router";
     //IMPORT MODEL, TYPE, AND CATEGORY FOR FILTRATION PURPOSES
 
     const items = ref([]);
@@ -29,8 +30,9 @@
             })
     };
 
-    const viewItem = (item) => {
+    const viewItem = (itemId) => {
         //TODO: NAVIGATE TO PROPER ITEM PAGE ON CLICK
+        router.push(({name: 'itemview', params: {id: itemId}}));
         console.log("Navigate to View Item with ID " + item.id);
     }
 
@@ -106,7 +108,7 @@
                 <td>{{ item.model.model }}</td>
                 <td>{{ item.model.type.typeName }}</td>
                 <td>
-                    <v-btn elevation="1" size="small" color="blue" @click="viewItem(item)" >View</v-btn>
+                    <v-btn elevation="1" size="small" color="blue" @click="viewItem(item.id)" >View</v-btn>
                 </td>
             </tr>
         </template>
