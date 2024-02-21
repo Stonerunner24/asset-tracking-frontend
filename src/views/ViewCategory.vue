@@ -2,10 +2,13 @@
     import { ref, onMounted } from "vue";
     import { useRoute } from 'vue-router'
     import CategoryServices from '../services/categorySerices.js'
+    import Sidebar from '../components/SideBar.vue'
 
     const route = useRoute();
     const category = ref({});
     const requestId = route.params.id;
+    const comboValue = ref(['active', 'inactive']);
+    const activeBox = ref(null);
 
     async function getCategory() {
         try {
@@ -17,13 +20,52 @@
         }
     }
 
+    async function setComboBox() {
+        activeBox.value = category.value.active === true ? 'active' : 'inactive';
+    }
+
+    async function saveCategory() {
+        try{
+            let data = { active: activeBox.value === 'active' ? 1 : 0 };
+            await CategoryServices.update(category.value.id, data);
+            await getCategory();
+        } catch(error) {
+            console.log(error);
+        }
+  }
+
     onMounted(async () => {
         await getCategory();
+        await setComboBox();
     });
 
 </script>
 <template>
-    <div>
-        {{ category }}
+    <v-container>
+        <Sidebar/>
+    </v-container>
+
+     <div class="ma-15 mt-3">
+            <!-- Page Title -->
+        <div style="font-size: x-large;" class="pb-5">Category View</div>
+
+        <v-card elevation="0" color="gray">
+            <div class="ml-5 mt-5" style="font-size: large;">Category Data</div>
+            <v-row class="align-center">
+                <v-col cols="6">
+                    <div class="pl-5 pt-4">Name</div>
+                    <v-text-field readonly small class="pl-5 pb-4" style="width: 25rem;">{{ category.catName }}</v-text-field>
+                </v-col>
+                <v-col cols="6">
+                    <div class="pl-5">Activity</div>
+                    <v-combobox  v-model="activeBox" class="pl-5 " style="width: 25rem;" :items="comboValue"></v-combobox>
+                </v-col>
+            </v-row>
+            <div class="text-right mb-5 mr-12">
+                <v-btn color="blue" class="pl-5" @click="saveCategory()">save</v-btn>
+            </div>
+        </v-card>
     </div>
+
+    <!-- TODO Add item viewer for all items in category -->
 </template>
