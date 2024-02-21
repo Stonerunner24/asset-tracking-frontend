@@ -62,7 +62,7 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/viewCategory/",
+      path: "/viewCategory/:id",
       name: "viewCategory",
       component: ViewCategory,
       props: true,

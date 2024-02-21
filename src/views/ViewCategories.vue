@@ -52,7 +52,7 @@
   }
   
   function viewCategory(category) {
-    router.push("/viewCategory");
+    router.push(`/viewCategory/${category.id}`);
   }
   
   async function hideCategory(category) {
