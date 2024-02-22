@@ -15,7 +15,7 @@ const myCustomLightTheme = {
   dark: false,
   colors: {
     primary: "#80162B",
-    secondary: "#E1E1E1",
+    secondary: "#82B1FF",
     accent: "#47121D",
     success: "#47121D",
     error: "#EE5044",
@@ -25,6 +25,8 @@ const myCustomLightTheme = {
     darkblue: "#032F45",
     silver: "#D5DFE7",
     card: "EAEAEA",
+    blue: "#1976D2",
+    gray: "#F0F0F0",
   },
 };
 
