@@ -4,7 +4,13 @@
 
 <template>
     <Sidebar></Sidebar>
-    <div>
-        <p>hello world</p>
+    <div class = "ma-15 mt-7">
+        <v-form>
+            <v-combobox label="Category"
+            :items = "['thing1','thing2', 'thing3']"></v-combobox>
+
+            <p>do a thing</p>
+            
+        </v-form>
     </div>
 </template>

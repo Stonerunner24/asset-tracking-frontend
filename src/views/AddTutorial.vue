@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import TutorialServices from "../services/tutorialServices";
 import Utils from "../config/utils.js";
 import { useRouter } from "vue-router";
+import Sidebar from "../components/SideBar.vue";
 
 const router = useRouter();
 const valid = ref(false);
@@ -43,7 +44,9 @@ onMounted(() => {
 </script>
 
 <template>
+  <Sidebar/>
   <div>
+    
     <v-container>
       <v-toolbar>
         <v-toolbar-title>Tutorial Add</v-toolbar-title>
