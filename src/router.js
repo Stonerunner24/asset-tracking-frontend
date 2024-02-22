@@ -11,6 +11,8 @@ import EditLesson from "./views/EditLesson.vue";
 
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
+import ViewModel from "./views/ViewModel.vue";
+import AddModel from "./views/AddModel.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +67,18 @@ const router = createRouter({
       path: "/viewCategory/",
       name: "viewCategory",
       component: ViewCategory,
+      props: true,
+    },
+    {
+      path: "/viewModel/",
+      name: "viewModel",
+      component: ViewModel,
+      props: true,
+    },
+    {
+      path: "/addModel/",
+      name: "addModel",
+      component: AddModel,
       props: true,
     },
   ],
