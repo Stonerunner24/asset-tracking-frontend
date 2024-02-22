@@ -1,8 +1,7 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
-  import CategoryServices from "../services/categorySerices";
+  import CategoryServices from "../services/categoryServices";
   import Sidebar from "../components/SideBar.vue";
-  import categorySerices from "../services/categorySerices";
   import router from "../router";
   
   const categories = ref([]);
@@ -46,7 +45,7 @@
       catName: newCategory.value,
       active: 1,
     }
-    await categorySerices.create(data);
+    await CategoryServices.create(data);
     await getCategory();
     newCategory.value = '';
   }

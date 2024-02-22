@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted } from "vue";
     import { useRoute } from 'vue-router'
-    import CategoryServices from '../services/categorySerices.js'
+    import CategoryServices from '../services/categoryServices.js'
     import TypeServices from '../services/typeServives.js'
     import Sidebar from '../components/SideBar.vue'
 
@@ -62,22 +62,15 @@
             <!-- Page Title -->
         <div style="font-size: x-large;" class="pb-5">Category View</div>
 
-        <v-card elevation="0" color="gray">
-            <div class="ml-5 mt-5" style="font-size: large;">Category Data</div>
-            <v-row class="align-center">
-                <v-col cols="6">
-                    <div class="pl-5 pt-4">Name</div>
-                    <v-text-field readonly small class="pl-5 pb-4" style="width: 25rem;">{{ category.catName }}</v-text-field>
-                </v-col>
-                <v-col cols="6">
-                    <div class="pl-5">Activity</div>
-                    <v-combobox  v-model="activeBox" class="pl-5 " style="width: 25rem;" :items="comboValue"></v-combobox>
-                </v-col>
-            </v-row>
-            <div class="text-right mb-5 mr-12">
-                <v-btn color="blue" class="pl-5" @click="saveCategory()">save</v-btn>
-            </div>
-        </v-card>
+        <div class="ml-5 mt-5" style="font-size: large;">Category Data</div>
+
+        <div class="pl-5 pt-4">Name</div>
+        <v-text-field readonly small class="pl-5 pb-4" style="width: 25rem;">{{ category.catName }}</v-text-field>
+
+        <div class="pl-5">Activity</div>
+        <v-combobox  v-model="activeBox" class="pl-5 " style="width: 25rem;" :items="comboValue"></v-combobox>
+
+        <v-btn color="blue" class="pl-5" @click="saveCategory()">save</v-btn>
 
         <!-- TODO Add item viewer for all types in category -->
         <div>{{ types }}</div>
