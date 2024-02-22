@@ -2,10 +2,12 @@
     import { ref, onMounted } from "vue";
     import { useRoute } from 'vue-router'
     import CategoryServices from '../services/categorySerices.js'
+    import TypeServices from '../services/typeServives.js'
     import Sidebar from '../components/SideBar.vue'
 
     const route = useRoute();
     const category = ref({});
+    const types = ref([]);
     const requestId = route.params.id;
     const comboValue = ref(['active', 'inactive']);
     const activeBox = ref(null);
@@ -15,6 +17,16 @@
             const response = await CategoryServices.get(requestId);
             category.value = response.data;
             console.log(category)
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+        }
+    }
+
+    async function getTypes() {
+        try {
+            const response = await TypeServices.getAllForCategory(requestId);
+            types.value = response.data;
+            console.log(types)
         } catch (error) {
             console.error("Error fetching categories:", error);
         }
@@ -32,11 +44,12 @@
         } catch(error) {
             console.log(error);
         }
-  }
+    }
 
     onMounted(async () => {
         await getCategory();
         await setComboBox();
+        await getTypes();
     });
 
 </script>
@@ -65,7 +78,19 @@
                 <v-btn color="blue" class="pl-5" @click="saveCategory()">save</v-btn>
             </div>
         </v-card>
-    </div>
 
-    <!-- TODO Add item viewer for all items in category -->
+        <!-- TODO Add item viewer for all types in category -->
+        <div>{{ types }}</div>
+        <v-data-table :items="types" class="display">
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.catName }}</td>
+            <td class="text-right">
+                <!-- View button -->
+                <v-btn elevation="1" size="small" color="blue" @click="viewCategory(item)" class="mr-10">View</v-btn>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+    </div>
 </template>

@@ -2,24 +2,24 @@ import apiClient from "./services.js";
 
 export default {
   getAll() {
-    return apiClient.get("/types");
+    return apiClient.get("/type");
   },
   getAllForCategory(categoryId) {
-    return apiClient.get("/types/" + categoryId);
+    return apiClient.get(`/type/?categoryId=${categoryId}`);
   },
   get(id) {
-    return apiClient.get(`/types/${id}`);
+    return apiClient.get(`/type/${id}`);
   },
   create(data) {
-    return apiClient.post("/types", data);
+    return apiClient.post("/type", data);
   },
   update(id, data) {
-    return apiClient.put(`/types/${id}`, data);
+    return apiClient.put(`/type/${id}`, data);
   },
   delete(id) {
-    return apiClient.delete(`/types/${id}`);
+    return apiClient.delete(`/type/${id}`);
   },
   deleteAll() {
-    return apiClient.delete(`/types`);
+    return apiClient.delete(`/type`);
   },
 };
