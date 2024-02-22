@@ -101,19 +101,17 @@
             :items="items"
             :search="search"
         >
-        <template v-slot:item="{item}">
-            <tr>
-                <td>{{ item.serialNum }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.model.model }}</td>
-                <td>{{ item.model.type.typeName }}</td>
-                <td>
-                    <v-btn elevation="1" size="small" color="blue" @click="viewItem(item.id)" >View</v-btn>
-                </td>
-            </tr>
-        </template>
-
-
+            <template v-slot:item="{item}">
+                <tr>
+                    <td>{{ item.serialNum }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.model.model }}</td>
+                    <td>{{ item.model.type.typeName }}</td>
+                    <td>
+                        <v-btn elevation="1" size="small" color="blue" @click="viewItem(item.id)" >View</v-btn>
+                    </td>
+                </tr>
+            </template>
         </v-data-table>
     </div>
     

@@ -10,9 +10,11 @@
     const modelFields = ref({});
     const itemFields = ref({});
     const typeFields = ref({});
-    const repair = ref({});
-    const assignment = ref({});
-    const itemInfo = ref({});
+    const repairs = ref({});
+    const assignments = ref({});
+    const itemInfos = ref({});
+
+    const tab = ref('History');
 
     onMounted(async() => {
         const route = useRoute();
@@ -30,9 +32,9 @@
             modelFields.value = data.data.modelFields;
             itemFields.value = data.data.itemFields;
             typeFields.value = data.data.typeFields;
-            repair.value = data.data.repair;
-            assignment.value = data.data.assignment;
-            itemInfo.value = data.data.itemInfo;
+            repairs.value = data.data.repair;
+            assignments.value = data.data.assignment;
+            itemInfos.value = data.data.itemInfo;
             console.log(type);
         }
         catch(err){
@@ -122,17 +124,56 @@
             title="Additional Information"
             class="elevation-0"
         >
-            <v-tabs color="blue">
-                <v-tab :value="History">
+            <v-tabs v-model="tab" color="blue">
+                <v-tab value="History">
                     History
                 </v-tab>
-                <v-tab :value="Repairs">
+                <v-tab value="Repairs">
                     Repairs
                 </v-tab>
-                <v-tab :value="Notes">
+                <v-tab value="Notes">
                     Notes
                 </v-tab>
             </v-tabs>
+            <v-window v-model="tab">
+                <v-window-item value="History">
+                    <v-card class="elevation-0">
+                        <v-data-table
+                            :headers="[
+                                {title: 'Checked Out'},
+                                {title: 'Checked In'},
+                                {title: 'Person'},
+                                {title: 'Status'}
+                            ]"
+                        >
+                        </v-data-table>
+                    </v-card>
+                </v-window-item>
+                <v-window-item value="Repairs">
+                    <v-card class="elevation-0">
+                        <v-data-table
+                            :headers="[
+                                {title: 'Repair Completed'},
+                                {title: 'Repair Type'},
+                                {title: 'Worker'},
+                                {title: 'Action'}
+                            ]"
+                        >
+                        </v-data-table>
+                    </v-card>
+                </v-window-item>
+                <v-window-item value="Notes">
+                    <v-card class="elevation-0">
+                        <v-data-table
+                            :headers="[
+                                {title: 'Title'},
+                                {title: 'Information'},
+                            ]"
+                        >
+                        </v-data-table>
+                    </v-card>
+                </v-window-item>
+            </v-window>
         </v-card>
 
     </div>
