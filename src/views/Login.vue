@@ -1,6 +1,6 @@
 <script setup>
-import SocialLogin from "../components/SocialLogin.vue";
-import Sidebar from "../components/SideBar.vue";
+//import SocialLogin from "../components/SocialLogin.vue";
+//import Sidebar from "../components/SideBar.vue";
 </script>
 
 <template>
