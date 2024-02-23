@@ -12,6 +12,11 @@
     const comboValue = ref(['active', 'inactive']);
     const activeBox = ref(null);
 
+    const headers = ref([
+        { title: "Type Name", key: "typeName" },
+        { title: "Active", key: "active" },
+    ])
+
     async function getCategory() {
         try {
             const response = await CategoryServices.get(requestId);
@@ -28,7 +33,7 @@
             types.value = response.data;
             console.log(types)
         } catch (error) {
-            console.error("Error fetching categories:", error);
+            console.error("Error fetching types:", error);
         }
     }
 
@@ -44,6 +49,10 @@
         } catch(error) {
             console.log(error);
         }
+    }
+
+    function viewCategory() {
+
     }
 
     onMounted(async () => {
@@ -70,14 +79,16 @@
         <div class="pl-5">Activity</div>
         <v-combobox  v-model="activeBox" class="pl-5 " style="width: 25rem;" :items="comboValue"></v-combobox>
 
-        <v-btn color="blue" class="pl-5" @click="saveCategory()">save</v-btn>
+        <div class="pl-5">
+            <v-btn color="blue" class="" @click="saveCategory()">set activity</v-btn>
+        </div>
 
         <!-- TODO Add item viewer for all types in category -->
         <div>{{ types }}</div>
-        <v-data-table :items="types" class="display">
-        <template v-slot:item="{ item }">
+        <v-data-table :items="types" :headers="headers" class="display">
+        <template v-slot:item="{ type }">
           <tr>
-            <td>{{ item.catName }}</td>
+            <td>{{ type }}</td>
             <td class="text-right">
                 <!-- View button -->
                 <v-btn elevation="1" size="small" color="blue" @click="viewCategory(item)" class="mr-10">View</v-btn>

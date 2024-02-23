@@ -51,7 +51,7 @@
   }
   
   function viewCategory(category) {
-    router.push(`/viewCategory/${category.id}`);
+    router.push("/viewCategory");
   }
   
   async function hideCategory(category) {
@@ -77,7 +77,7 @@
 
     <div class="ma-15 mt-7">
       <!-- Page Title -->
-      <div style="font-size: x-large;">View Categories</div>
+      <div style="font-size: x-large;">Category Lookup</div>
   
       <!-- Category Data Table -->
       <v-tabs v-model="tab" color="blue">
