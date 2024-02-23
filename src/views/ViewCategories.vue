@@ -51,13 +51,13 @@
   }
   
   function viewCategory(category) {
-    router.push("/viewCategory");
+    router.push(`/viewCategory/${category.id}`);
   }
   
   async function hideCategory(category) {
   try {
     let data = { active: tab.value === 'inactive' ? 1 : 0 };
-    await categorySerices.update(category.id, data);
+    await CategoryServices.update(category.id, data);
 
     await getCategory();
   } catch (error) {
