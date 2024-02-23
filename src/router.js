@@ -1,13 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Login from "./views/Login.vue";
-
-import TutorialsList from "./views/TutorialsList.vue";
-import EditTutorial from "./views/EditTutorial.vue";
-import AddTutorial from "./views/AddTutorial.vue";
-import ViewTutorial from "./views/ViewTutorial.vue";
-import AddLesson from "./views/AddLesson.vue";
-import EditLesson from "./views/EditLesson.vue";
+import ItemLookup from "./views/ItemLookup.vue";
+import ItemView from "./views/ItemView.vue";
 
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
@@ -22,38 +17,16 @@ const router = createRouter({
       component: Login,
     },
     {
-      path: "/tutorials",
-      name: "tutorials",
-      component: TutorialsList,
+      path: "/itemlookup",
+      alias: "/itemlookup",
+      name: "itemlookup",
+      component: ItemLookup
     },
     {
-      path: "/edit/:id",
-      name: "edit",
-      component: EditTutorial,
-      props: true,
-    },
-    {
-      path: "/add",
-      name: "add",
-      component: AddTutorial,
-    },
-    {
-      path: "/view/:id",
-      name: "view",
-      component: ViewTutorial,
-      props: true,
-    },
-    {
-      path: "/addLesson/:tutorialId",
-      name: "addLesson",
-      component: AddLesson,
-      props: true,
-    },
-    {
-      path: "/editLesson/:tutorialId/:lessonId",
-      name: "editLesson",
-      component: EditLesson,
-      props: true,
+      path:"/itemview/:id",
+      alias: "/itemview/:id",
+      name: "itemview",
+      component: ItemView
     },
     {
       path: "/viewCategories/",

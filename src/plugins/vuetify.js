@@ -20,11 +20,13 @@ const myCustomLightTheme = {
     success: "#47121D",
     error: "#EE5044",
     teal: "#63BAC0",
-    blue: "#1976D2",
+    blue: "#1976d2",
     yellow: "#F8C545",
     darkblue: "#032F45",
+    silver: "#D5DFE7",
+    card: "EAEAEA",
+    blue: "#1976D2",
     gray: "#F0F0F0",
-    silver: "#D5DFE7"
   },
 };
 
