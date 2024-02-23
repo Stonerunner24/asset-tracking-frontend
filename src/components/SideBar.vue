@@ -3,10 +3,13 @@
 <template>
     <div>
         <v-navigation-drawer
+            disable-resize-watcher
             expand-on-hover
             rail
             color="silver"
             width="200"
+            floating="true"
+            permanent="true"
         >
             <v-list>
                 <v-list-item
