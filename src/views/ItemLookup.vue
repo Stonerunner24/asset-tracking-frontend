@@ -5,6 +5,7 @@
     //IMPORT MODEL, TYPE, AND CATEGORY FOR FILTRATION PURPOSES
 
     const items = ref([]);
+    const search = ref();
     const headers = [
         {title: 'Serial Number', value: 'serialNum'},
         {title: 'Status', value: 'status'},
