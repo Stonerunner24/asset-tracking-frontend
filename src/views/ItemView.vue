@@ -53,7 +53,7 @@
                 <v-combobox
                     chips
                     label="Type"
-                    disabled="true"
+                    disabled=true
                     v-model="type.typeName"
                 ></v-combobox>
                 <!-- FILTER OFF TYPE -->
@@ -62,7 +62,7 @@
                 <v-combobox
                     chips
                     label="Category"
-                    disabled="true"
+                    disabled=true
                     v-model="category.catName"
                 ></v-combobox>
                 <!-- FILTER OFF CATEGORY -->
@@ -93,7 +93,7 @@
                     <v-combobox
                         :label="m.field.name"
                         v-model="m.value"
-                        disabled="true"
+                        disabled=true
                     ></v-combobox>
                 </v-col>
             </v-row>
@@ -112,7 +112,7 @@
                     <v-combobox
                         :label="i.field.name"
                         v-model="i.value"
-                        disabled="true"
+                        disabled=true
                     ></v-combobox>
                 </v-col>
             </v-row>
@@ -125,19 +125,21 @@
             class="elevation-0"
         >
             <v-tabs v-model="tab" color="blue">
-                <v-tab value="History">
+                <v-tab value="History" :eager="true">
                     History
+
                 </v-tab>
-                <v-tab value="Repairs">
+                <v-tab value="Repairs" :eager="true">
                     Repairs
                 </v-tab>
-                <v-tab value="Notes">
+                <v-tab value="Notes" :eager="true">
                     Notes
                 </v-tab>
+                
             </v-tabs>
             <v-window v-model="tab">
-                <v-window-item value="History">
-                    <v-card class="elevation-0">
+                <v-window-item value="History" key="History">
+                    <!-- <v-card class="elevation-0"> -->
                         <v-data-table
                             :headers="[
                                 {title: 'Checked Out'},
@@ -147,10 +149,10 @@
                             ]"
                         >
                         </v-data-table>
-                    </v-card>
+                    <!-- </v-card> -->
                 </v-window-item>
-                <v-window-item value="Repairs">
-                    <v-card class="elevation-0">
+                <v-window-item value="Repairs" key="Repairs">
+                    <!-- <v-card class="elevation-0"> -->
                         <v-data-table
                             :headers="[
                                 {title: 'Repair Completed'},
@@ -160,10 +162,10 @@
                             ]"
                         >
                         </v-data-table>
-                    </v-card>
+                    <!-- </v-card> -->
                 </v-window-item>
-                <v-window-item value="Notes">
-                    <v-card class="elevation-0">
+                <v-window-item value="Notes" key="Notes">
+                    <!-- <v-card class="elevation-0"> -->
                         <v-data-table
                             :headers="[
                                 {title: 'Title'},
@@ -171,7 +173,7 @@
                             ]"
                         >
                         </v-data-table>
-                    </v-card>
+                    <!-- </v-card> -->
                 </v-window-item>
             </v-window>
         </v-card>
