@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "./views/Login.vue";
 import ItemLookup from "./views/ItemLookup.vue";
 import ItemView from "./views/ItemView.vue";
-
+import TypeView from "./views/TypeView.vue"
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 
@@ -38,6 +38,12 @@ const router = createRouter({
       path: "/viewCategory/:id",
       name: "viewCategory",
       component: ViewCategory,
+      props: true,
+    },
+    {
+      path: "/typeview/:id",
+      name: "typeview",
+      component: TypeView,
       props: true,
     },
   ],

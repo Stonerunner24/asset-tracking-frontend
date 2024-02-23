@@ -71,9 +71,6 @@
 </script>
   
 <template>
-  <v-container>
-    <Sidebar />
-  </v-container>
 
     <div class="ma-15 mt-7">
       <!-- Page Title -->

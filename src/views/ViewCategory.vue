@@ -52,7 +52,7 @@
     }
 
     function viewCategory(type) {
-        router.push(`/viewtype/${type.id}`);
+        router.push(`/typeview/${type.id}`);
     }
 
     onMounted(async () => {
@@ -63,9 +63,6 @@
 
 </script>
 <template>
-    <v-container>
-        <Sidebar/>
-    </v-container>
 
     <div class="ma-15 mt-3 pl-5">
             <!-- Page Title -->
