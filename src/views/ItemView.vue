@@ -23,18 +23,18 @@
 
     const retrieveItemData = async(route) => {
         try{
-            const data = await ItemServices.getOne(route.params.id);
-            console.log(data.data.item);
-            item.value = data.data.item;
-            model.value = data.data.model;
-            type.value = data.data.type;
-            category.value = data.data.category;
-            modelFields.value = data.data.modelFields;
-            itemFields.value = data.data.itemFields;
-            typeFields.value = data.data.typeFields;
-            repairs.value = data.data.repair;
-            assignments.value = data.data.assignment;
-            itemInfos.value = data.data.itemInfo;
+            const response = await ItemServices.getOne(route.params.id);
+            console.log(response.data.item);
+            item.value = response.data.item;
+            model.value = response.data.model;
+            type.value = response.data.type;
+            category.value = response.data.category;
+            modelFields.value = response.data.modelFields;
+            itemFields.value = response.data.itemFields;
+            typeFields.value = response.data.typeFields;
+            repairs.value = response.data.repair;
+            assignments.value = response.data.assignment;
+            itemInfos.value = response.data.itemInfo;
             console.log(type);
         }
         catch(err){
@@ -127,7 +127,6 @@
             <v-tabs v-model="tab" color="blue">
                 <v-tab value="History" :eager="true">
                     History
-
                 </v-tab>
                 <v-tab value="Repairs" :eager="true">
                     Repairs
@@ -135,47 +134,34 @@
                 <v-tab value="Notes" :eager="true">
                     Notes
                 </v-tab>
-                
             </v-tabs>
-            <v-window v-model="tab">
-                <v-window-item value="History" key="History">
-                    <!-- <v-card class="elevation-0"> -->
-                        <v-data-table
-                            :headers="[
-                                {title: 'Checked Out'},
-                                {title: 'Checked In'},
-                                {title: 'Person'},
-                                {title: 'Status'}
-                            ]"
-                        >
-                        </v-data-table>
-                    <!-- </v-card> -->
-                </v-window-item>
-                <v-window-item value="Repairs" key="Repairs">
-                    <!-- <v-card class="elevation-0"> -->
-                        <v-data-table
-                            :headers="[
-                                {title: 'Repair Completed'},
-                                {title: 'Repair Type'},
-                                {title: 'Worker'},
-                                {title: 'Action'}
-                            ]"
-                        >
-                        </v-data-table>
-                    <!-- </v-card> -->
-                </v-window-item>
-                <v-window-item value="Notes" key="Notes">
-                    <!-- <v-card class="elevation-0"> -->
-                        <v-data-table
-                            :headers="[
-                                {title: 'Title'},
-                                {title: 'Information'},
-                            ]"
-                        >
-                        </v-data-table>
-                    <!-- </v-card> -->
-                </v-window-item>
-            </v-window>
+            <v-card class="elevation-0">
+                <v-data-table v-if="tab === 'History'"
+                    :headers="[
+                        {title: 'Checked Out'},
+                        {title: 'Checked In'},
+                        {title: 'Person'},
+                        {title: 'Status'}
+                    ]"
+                >
+                </v-data-table>
+                <v-data-table v-else-if="tab === 'Repairs'"
+                    :headers="[
+                        {title: 'Repair Completed'},
+                        {title: 'Repair Type'},
+                        {title: 'Worker'},
+                        {title: 'Action'}
+                    ]"
+                >
+                </v-data-table>
+                <v-data-table v-else-if="tab === 'Notes'"
+                    :headers="[
+                        {title: 'Title'},
+                        {title: 'Information'},
+                    ]"
+                >
+                </v-data-table>
+            </v-card>
         </v-card>
 
     </div>
