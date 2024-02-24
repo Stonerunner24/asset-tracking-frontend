@@ -22,6 +22,7 @@
     const getAllCategories = async()=>{
         try{
             categories.value = await categorySerices.getAll();
+            console.log("category value data");
             console.log(categories.value.data);
             catNames.value = categories.value.data.map(category => category.catName);
             console.log(catNames.value);
@@ -52,9 +53,13 @@
             <v-combobox 
             label="Category"
             v-model="selectedCategoryId"
-            :items ="catNames"
-            item-text = "id"
-            :return-object = "true"></v-combobox>            
+            :items ="catNames"                     
+            :return-object = "true"></v-combobox>     
+            
+            <v-text-field
+            label = "Name"
+            placeholder = "Type name"
+            ></v-text-field>
         </v-form>
     </div>
 </template>
