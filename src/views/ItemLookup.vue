@@ -34,7 +34,10 @@
     const viewItem = (itemId) => {
         //TODO: NAVIGATE TO PROPER ITEM PAGE ON CLICK
         router.push(({name: 'itemview', params: {id: itemId}}));
-        console.log("Navigate to View Item with ID " + item.id);
+    }
+
+    const addItem = () => {
+        router.push(({name: 'itemadd'}));
     }
 
 </script>
@@ -114,6 +117,13 @@
                 </tr>
             </template>
         </v-data-table>
+        <v-btn
+            color="blue"
+            size="large"
+            @click="addItem()"
+        >
+            Add Item
+        </v-btn>
     </div>
     
 </template>

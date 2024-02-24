@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "./views/Login.vue";
 import ItemLookup from "./views/ItemLookup.vue";
 import ItemView from "./views/ItemView.vue";
-
+import ItemAdd from "./views/ItemAdd.vue";
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 
@@ -27,6 +27,11 @@ const router = createRouter({
       alias: "/itemview/:id",
       name: "itemview",
       component: ItemView
+    },
+    {
+      path: "/itemadd",
+      name: "itemadd",
+      component: ItemAdd,
     },
     {
       path: "/viewCategories/",
