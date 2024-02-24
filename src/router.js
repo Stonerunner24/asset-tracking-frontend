@@ -11,6 +11,7 @@ import EditLesson from "./views/EditLesson.vue";
 
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
+import AddType from "./views/addType.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,6 +68,13 @@ const router = createRouter({
       component: ViewCategory,
       props: true,
     },
+    {
+      path: "/addtype",
+      name: "addType",
+      component: AddType,
+      props: false
+    }
+
   ],
 });
 
