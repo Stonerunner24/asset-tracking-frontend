@@ -19,16 +19,14 @@
     });
 
     const retrieveItems = async() => {
-        await ItemServices.getAll()
-            .then((response) => {
-                items.value = response.data;
-                console.log(items.value);
-            })
-            .catch(async(err) => {
-                if(err.response && err.response.status === 404){
-                    console.log(err);
-                }
-            })
+        try{
+            const response = await ItemServices.getAll();
+            items.value = response.data;
+            console.log(items.value);
+        }
+        catch(err){
+            console.error(err);
+        }
     };
 
     const viewItem = (itemId) => {
@@ -84,9 +82,7 @@
                         class=""
                         color="blue"
                         size="large"
-                    >
-                        Filter
-                    </v-btn>
+                    >Filter</v-btn>
                 </v-col>
             </v-row>
         </div>

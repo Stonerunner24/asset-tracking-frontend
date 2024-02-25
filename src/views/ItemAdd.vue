@@ -43,45 +43,85 @@
     }
 
     const changeCategory = async() => {
+        console.log("changing category");
         if(activeCat.value == null){
             await retrieveData();
-        }
-        else if(activeCat.value && cascade){
-            //clear active type and model
             activeType.value = null;
             activeModel.value = null;
-            
+        }
+        else if(activeCat.value){
+            //clear active type and model
+            if(cascade){
+                activeType.value = null;
+                activeModel.value = null;
+            }
+
             //set types to be only types within that category
-            let catId = categories.value.data.find(cat => cat.catName).id;
+            let catId = categories.value.data.find(cat => cat.catName === activeCat.value).id;
             console.log(catId);
 
             try{
                 types.value = await TypeServices.getAllForCategory(catId);
                 typeNames.value = types.value.data.map(type => type.typeName);
                 models.value = [];
+                if (cascade) {
                 const promises = types.value.data.map(async (type) => {
-                    models.value.push((await ModelServices.getAllByType(type.id)).data);
+                    const typeModels = (await ModelServices.getAllByType(type.id)).data;
+                    return typeModels;
                 });
-                await Promise.all(promises);
-                modelNames.value = models.value.flatMap(modelList => modelList.map(model => model.model));
+
+                    // Wait for all promises to resolve
+                    const resolvedModels = await Promise.all(promises);
+
+                    // Flatten the array of arrays
+                    models.value = resolvedModels.flat();
+
+                    console.log(models);
+                    modelNames.value = models.value.map(model => model.model);
+                }
             }
             catch(err){
                 console.error(err);
             }
         }
-        else cascade = true;
+        cascade = true;
     };
 
     const changeType = async() => {
+        if(cascade){
+            activeModel.value = null;
+        }
+        let type = types.value.data.find(type => type.typeName === activeType.value);
+        console.log(type);
         //If category is empty, change category to category of type
+        if(activeCat.value == null){
+            cascade = false;
+            activeCat.value = categories.value.data.find(cat => cat.id === type.categoryId).catName;
+            await changeCategory();
+        }
 
         //set models to only be models within this type
-
+        models.value = await ModelServices.getAllByType(type.id);
+        modelNames.value = models.value.data.map(model => model.model);
     };
 
     const changeModel = async() => {
         //if type is empty, set type to be type of this model
+        console.log(models.value);
+        // let model = models.value.data.find(model => model.model === activeModel.value);
+        if(activeType.value == null){
+            let model = activeCat.value ? 
+                models.value.find(model => model.model === activeModel.value) :
+                models.value.data.find(model => model.model === activeModel.value);
 
+            activeType.value = types.value.data.find(type => type.id === model.typeId).typeName;
+            cascade = false;
+            changeType();
+        }
+
+        const findTypeFields = async(typeId) => {
+            
+        }
     };
 </script>
 <template>
@@ -92,8 +132,7 @@
         <v-row>
             <v-col class="text-left">
                 <v-combobox
-                    chips
-                    closable-chips
+                    clearable
                     label="Category"
                     v-model="activeCat"
                     @update:modelValue="changeCategory"
@@ -102,8 +141,7 @@
             </v-col>
             <v-col class="text-left">
                 <v-combobox
-                    chips
-                    closable-chips
+                    clearable
                     label="Type"
                     v-model="activeType"
                     @update:modelValue="changeType"
@@ -112,8 +150,7 @@
             </v-col>
             <v-col>
                 <v-combobox
-                    chips
-                    closable-chips
+                    clearable
                     label="Model"
                     v-model="activeModel"
                     @update:modelValue="changeModel"
