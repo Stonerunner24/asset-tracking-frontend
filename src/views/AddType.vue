@@ -1,22 +1,46 @@
 <script setup>
-    import { onMounted, ref } from "vue";
+    import { onMounted, ref, computed } from "vue";
     import Sidebar from "../components/SideBar.vue";
     import categorySerices from "../services/categorySerices";
+    import modelServices from "../services/modelServices"
     
 
 
     const categories = ref([]);
     const catNames = ref([]);
+    //const models = ref([]);
+    //const modelNames = ref([]);
     const selectedCategoryId = ref(null);
+    var numModels = 0;
+
+   
+
+
+
+
+    const incrementModelCount = () =>{
+        numModels = numModels + 1;
+        console.log(numModels);
+    }
 
     onMounted(async () =>{
         console.log("Starting up");
+        incrementModelCount();
+        console.log(numModels);
         await getAllCategories();
         
     })
     
     
-
+    //get models
+    // const getAllModels = async()=>{
+    //     try{
+    //         models.value = await modelServices.getAll();
+    //         console.log("model value data");
+    //         console.log(model.value.data);
+    //         modelNames.value = models.value.data.map(model => model.na)
+    //     }
+    // };
 
     //get categories
     const getAllCategories = async()=>{
@@ -60,6 +84,23 @@
             label = "Name"
             placeholder = "Type name"
             ></v-text-field>
+
+            <br>
+
+            <p>Model Fields</p>
+
+            <v-combobox 
+            v-for="n in numModels"
+            label = "Model Field">
+            </v-combobox>
+
+            <v-btn
+            @click = "incrementModelCount"
+            ><v-icon left>mdi-plus</v-icon>Add New Model</v-btn>
+
+            
+
+            
         </v-form>
     </div>
 </template>
