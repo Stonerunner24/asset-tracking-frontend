@@ -1,8 +1,7 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
-  import CategoryServices from "../services/categorySerices";
+  import CategoryServices from "../services/categoryServices";
   import Sidebar from "../components/SideBar.vue";
-  import categorySerices from "../services/categorySerices";
   import router from "../router";
   
   const categories = ref([]);
@@ -72,10 +71,6 @@
 </script>
   
 <template>
-  <v-container>
-    <Sidebar />
-  </v-container>
-
     <div class="ma-15 mt-7">
       <!-- Page Title -->
       <div style="font-size: x-large;">Category Lookup</div>
