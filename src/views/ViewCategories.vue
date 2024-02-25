@@ -98,6 +98,7 @@
       </v-data-table>
   
       <!-- Add Category Display -->
+      <!-- ? does not call only Associated types but all types -->
       <div class="pt-10">
         <div style="font-size: large;">Add New Category</div>
         <v-card color="gray" class="pa-4">
