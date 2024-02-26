@@ -3,6 +3,7 @@
     import Sidebar from "../components/SideBar.vue";
     import categorySerices from "../services/categorySerices";
     import fieldServices from "../services/fieldServices";
+    import typeServices from "../services/typeServives";
 
 
     const categories = ref([]);
@@ -14,6 +15,7 @@
     const selectedItemId = ref(null);
     const nameType = ref(null);
     let numSelectedModels;
+    //let selectedCat = ref(null);
 
    
 
@@ -70,8 +72,15 @@
         // })
     };
 
+    const getCatId = () =>{
+        let catId = categories.value.data.find(cat => cat.catName === selectedCategoryId.value).id;
+        return catId;
+        }
+
+
     const printStuff = () =>{
-        console.log(selectedCategoryId);
+        console.log(selectedCategoryId.value);
+        console.log(getCatId());
         console.log(selectedModelId.value);
         console.log(selectedItemId.value);
         console.log(nameType.value);
@@ -82,15 +91,18 @@
 
     const handleTypeCreate = async() =>{
 
-        let catIdNum = await categorySerices.findByTitle(selectedCategoryId.value);
-        console.log(catIdNum.value);
+        let catIdNum = getCatId();
 
         
         const type = {
             typeName: nameType.value,
             active: true,
-            categoryId: selectedCategoryId.value
+            categoryId: catIdNum
         };
+
+        console.log(type);
+
+        typeServices.create(type);
     }
 
 </script>
