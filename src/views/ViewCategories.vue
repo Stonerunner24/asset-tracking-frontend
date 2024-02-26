@@ -1,8 +1,7 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
-  import CategoryServices from "../services/categorySerices";
+  import CategoryServices from "../services/categoryServices";
   import Sidebar from "../components/SideBar.vue";
-  import categorySerices from "../services/categorySerices";
   import router from "../router";
   
   const categories = ref([]);
@@ -46,19 +45,19 @@
       catName: newCategory.value,
       active: 1,
     }
-    await categorySerices.create(data);
+    await CategoryServices.create(data);
     await getCategory();
     newCategory.value = '';
   }
   
   function viewCategory(category) {
-    router.push("/viewCategory");
+    router.push(`/viewCategory/${category.id}`);
   }
   
   async function hideCategory(category) {
   try {
     let data = { active: tab.value === 'inactive' ? 1 : 0 };
-    await categorySerices.update(category.id, data);
+    await CategoryServices.update(category.id, data);
 
     await getCategory();
   } catch (error) {
@@ -72,9 +71,6 @@
 </script>
   
 <template>
-  <v-container>
-    <Sidebar />
-  </v-container>
 
     <div class="ma-15 mt-7">
       <!-- Page Title -->
@@ -102,6 +98,7 @@
       </v-data-table>
   
       <!-- Add Category Display -->
+      <!-- ? does not call only Associated types but all types -->
       <div class="pt-10">
         <div style="font-size: large;">Add New Category</div>
         <v-card color="gray" class="pa-4">
