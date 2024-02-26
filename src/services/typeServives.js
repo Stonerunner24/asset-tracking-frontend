@@ -5,7 +5,7 @@ export default {
     return apiClient.get("/type");
   },
   getAllForCategory(categoryId) {
-    return apiClient.get("/type/category/" + categoryId);
+    return apiClient.get(`/type/category/${categoryId}`);
   },
   get(id) {
     return apiClient.get(`/type/${id}`);

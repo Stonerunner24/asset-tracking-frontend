@@ -4,6 +4,7 @@ import Login from "./views/Login.vue";
 import ItemLookup from "./views/ItemLookup.vue";
 import ItemView from "./views/ItemView.vue";
 import ItemAdd from "./views/ItemAdd.vue";
+import TypeView from "./views/TypeView.vue";
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 
@@ -40,9 +41,15 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/viewCategory/",
+      path: "/viewCategory/:id",
       name: "viewCategory",
       component: ViewCategory,
+      props: true,
+    },
+    {
+      path: "/typeview/:id",
+      name: "typeview",
+      component: TypeView,
       props: true,
     },
   ],
