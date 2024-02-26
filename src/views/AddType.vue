@@ -2,46 +2,48 @@
     import { onMounted, ref, computed } from "vue";
     import Sidebar from "../components/SideBar.vue";
     import categorySerices from "../services/categorySerices";
-    import modelServices from "../services/modelServices"
-    
+    import fieldServices from "../services/fieldServices";
 
 
     const categories = ref([]);
     const catNames = ref([]);
-    //const models = ref([]);
-    //const modelNames = ref([]);
+    const fields = ref([]);
+    const fieldNames = ref([]);
     const selectedCategoryId = ref(null);
-    var numModels = 0;
+    const selectedModelId = ref(null);
+    const selectedItemId = ref(null);
+    const nameType = ref(null);
+    let numSelectedModels;
 
    
 
 
 
 
-    const incrementModelCount = () =>{
-        numModels = numModels + 1;
-        console.log(numModels);
-    }
+    
 
     onMounted(async () =>{
         console.log("Starting up");
-        incrementModelCount();
-        console.log(numModels);
+        //incrementModelCount();
+        console.log("num Fields" + numSelectedModels);
         await getAllCategories();
-        
+        await getAllFields();
     })
     
     
-    //get models
-    // const getAllModels = async()=>{
-    //     try{
-    //         models.value = await modelServices.getAll();
-    //         console.log("model value data");
-    //         console.log(model.value.data);
-    //         modelNames.value = models.value.data.map(model => model.na)
-    //     }
-    // };
-
+    const getAllFields = async()=>{
+        try{
+            fields.value = await fieldServices.getAll();
+            console.log("fields value data\n", fields.value.data);
+            fieldNames.value = fields.value.data.map(field => field.name);
+            console.log(fieldNames.value);
+            //numModels = fieldNames.value.length;
+            //console.log("numModels: ", numModels);
+        }
+        catch(err){
+            console.error(err);
+        }
+    };
     //get categories
     const getAllCategories = async()=>{
         try{
@@ -68,6 +70,29 @@
         // })
     };
 
+    const printStuff = () =>{
+        console.log(selectedCategoryId);
+        console.log(selectedModelId.value);
+        console.log(selectedItemId.value);
+        console.log(nameType.value);
+        //console.log(categoryServices.findByTitle(selectedCategoryId.value));
+
+
+    }
+
+    const handleTypeCreate = async() =>{
+
+        let catIdNum = await categorySerices.findByTitle(selectedCategoryId.value);
+        console.log(catIdNum.value);
+
+        
+        const type = {
+            typeName: nameType.value,
+            active: true,
+            categoryId: selectedCategoryId.value
+        };
+    }
+
 </script>
 
 <template>
@@ -83,6 +108,7 @@
             <v-text-field
             label = "Name"
             placeholder = "Type name"
+            v-model = "nameType"
             ></v-text-field>
 
             <br>
@@ -90,13 +116,26 @@
             <p>Model Fields</p>
 
             <v-combobox 
-            v-for="n in numModels"
-            label = "Model Field">
+            chips
+            closable-chips
+            multiple
+            label = "Model Field"
+            v-model="selectedModelId"
+            :items="fieldNames"
+            :return-object="true">
             </v-combobox>
 
+            <p>Item Fields</p>
+
+            <v-combobox chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox>
+
             <v-btn
-            @click = "incrementModelCount"
-            ><v-icon left>mdi-plus</v-icon>Add New Model</v-btn>
+            @click="printStuff()">Save</v-btn>
+
+            <v-btn
+            @click="handleTypeCreate()">Save</v-btn>
+
+            
 
             
 
