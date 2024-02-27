@@ -157,7 +157,7 @@
                 fieldId: fieldIds,
             }
             console.log(JSON.stringify(typeField));
-            typeServices.createTypeFields(idOfType, JSON.stringify(typeField));
+            typeServices.createTypeFields(idOfType, typeField);
 
         })
         .catch(error=>{
