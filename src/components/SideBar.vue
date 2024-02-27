@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 import router from '../router';
 
 function goToHome(){
-    router.push("/homepage")
+    router.push("/home")
 }
 function goToItemLookup(){
     router.push("/itemlookup")
