@@ -47,6 +47,11 @@ const router = createRouter({
           component: ItemView        
         },
         {
+          path:"/itemadd",
+          name: "itemadd",
+          component: ItemAdd
+        },
+        {
           path: "/viewCategories/",
           name: "viewCategories",
           component: ViewCategories,

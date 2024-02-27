@@ -184,7 +184,7 @@
         warrantyEnd.value = null;
         prodYear.value = null;
         for(fieldValue of fieldValues.value){
-            fieldValue.value = null;
+            fieldValue = null;
         }
     };
 
