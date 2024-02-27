@@ -183,10 +183,9 @@
         serialNum.value = null;
         warrantyEnd.value = null;
         prodYear.value = null;
-        fieldValues.value.forEach(fieldValue => {
+        for(fieldValue of fieldValues.value){
             fieldValue = null;
-        });
-        modelFields.value = [];
+        }
     };
 
     const clearAll = async() => {
