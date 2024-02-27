@@ -183,14 +183,10 @@
         serialNum.value = null;
         warrantyEnd.value = null;
         prodYear.value = null;
-<<<<<<< HEAD
-        for(fieldValue in fieldValues.value){
-            fieldValue.value = null;
-=======
-        for(fieldValue of fieldValues.value){
+        fieldValues.value.forEach(fieldValue => {
             fieldValue = null;
->>>>>>> 742b909e8201f2809411374856197fd79417348a
-        }
+        });
+        modelFields.value = [];
     };
 
     const clearAll = async() => {
