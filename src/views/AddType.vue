@@ -76,6 +76,9 @@
         let catId = categories.value.data.find(cat => cat.catName === selectedCategoryId.value).id;
         return catId;
     }
+
+
+    //takes the selected item and models and returns an array of their respective fieldIds. 
     const getFieldIds = () =>{
      
         let fieldIds = [];
@@ -103,6 +106,21 @@
         })
         return fieldIds;
         
+    }
+
+    const getAreItems = () =>{
+        let x = [];
+        selectedItemId.value.forEach(function(data){
+            //fieldIds.push(data);
+            x.push(1);
+        });
+
+        selectedModelId.value.forEach(function(data){
+            //fieldIds.push(data);
+            x.push(0);
+        });
+        return x;
+
     }
 
 
@@ -138,17 +156,10 @@
         let areItems = [];
         let idType = newType.value.data.id;
 
-        selectedItemId.value.forEach(function(data){
-            //fieldIds.push(data);
-            areItems.push(1);
-        });
-
-        selectedModelId.value.forEach(function(data){
-            //fieldIds.push(data);
-            areItems.push(0);
-        });
+        
         console.log("setting field Ids");
         fieldIds = getFieldIds();
+        areItems = getAreItems();
         console.log(fieldIds);
         console.log(newType);
         console.log(newType.value.data.id);
