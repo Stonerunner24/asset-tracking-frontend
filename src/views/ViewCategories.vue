@@ -70,7 +70,6 @@
 </script>
   
 <template>
-
     <div class="ma-15 mt-7">
       <!-- Page Title -->
       <div style="font-size: x-large;">Category Lookup</div>
