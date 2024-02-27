@@ -1,7 +1,6 @@
 <script setup>
   import { ref, onMounted, computed } from "vue";
   import CategoryServices from "../services/categoryServices";
-  import Sidebar from "../components/SideBar.vue";
   import router from "../router";
   
   const categories = ref([]);
