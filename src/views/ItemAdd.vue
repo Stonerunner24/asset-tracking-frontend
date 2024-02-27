@@ -186,6 +186,7 @@
         fieldValues.value.forEach(fieldValue => {
             fieldValue = null;
         });
+        modelFields.value = [];
     };
 
     const clearAll = async() => {
