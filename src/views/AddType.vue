@@ -76,6 +76,34 @@
         let catId = categories.value.data.find(cat => cat.catName === selectedCategoryId.value).id;
         return catId;
     }
+    const getFieldIds = () =>{
+     
+        let fieldIds = [];
+        
+       
+        selectedItemId.value.forEach(function(data){
+            //console.log(data);
+            let d = data;
+            fields.value.data.forEach(function(fieldData){
+                if(d === fieldData.name){
+                    fieldIds.push(fieldData.id);
+                }
+                else{
+                    //console.log("false");
+                }
+            })  
+        })
+        selectedModelId.value.forEach(function(data){
+            let d = data;
+            fields.value.data.forEach(function(fieldData){
+                if(d===fieldData.name){
+                    fieldIds.push(fieldData.id);
+                }
+            })
+        })
+        return fieldIds;
+        
+    }
 
 
     const printStuff = () =>{
@@ -111,25 +139,27 @@
         let idType = newType.value.data.id;
 
         selectedItemId.value.forEach(function(data){
-            fieldIds.push(data);
+            //fieldIds.push(data);
             areItems.push(1);
         });
 
         selectedModelId.value.forEach(function(data){
-            fieldIds.push(data);
+            //fieldIds.push(data);
             areItems.push(0);
         });
-
+        console.log("setting field Ids");
+        fieldIds = getFieldIds();
+        console.log(fieldIds);
         console.log(newType);
         console.log(newType.value.data.id);
         console.log(idType);
-        console.log(fieldIds);
+        
         console.log(areItems);
 
         const typeField = {
             isItem: areItems,
             fieldId: fieldIds,
-            typeId: idType,
+            //typeId: idType,
         };
 
         //console.log(typeField.value);
@@ -140,6 +170,9 @@
 
         //console.log(typeServices.getAll());
         //console.log(typeServices.getAllTypeFields(1));
+        console.log("printing field ids");
+        console.log(getFieldIds());
+
         typeServices.createTypeFields(idType, JSON.stringify(typeField));
     }
 
