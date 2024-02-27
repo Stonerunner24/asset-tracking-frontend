@@ -103,6 +103,13 @@
         console.log(type);
 
         typeServices.create(type);
+
+        let fieldIds = [];
+        let areItems = [];
+
+        selectedItemId.value.forEach(function(data){
+            fieldIds.push(data)
+        })
     }
 
 </script>
