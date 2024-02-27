@@ -11,7 +11,7 @@ function goToViewModels(){
     router.push("/")
 }
 function goToViewItems(){
-    router.push("/itemlookup")
+    router.push("/itemView")
 }
 
 </script>
