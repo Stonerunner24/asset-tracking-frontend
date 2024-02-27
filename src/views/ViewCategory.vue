@@ -2,7 +2,7 @@
     import { ref, onMounted } from "vue";
     import { useRoute } from 'vue-router'
     import CategoryServices from '../services/categoryServices.js'
-    import TypeServices from '../services/typeServives.js'
+    import TypeServices from '../services/typeServices.js'
     import Sidebar from '../components/SideBar.vue'
     import router from "../router";
 

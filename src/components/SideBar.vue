@@ -1,4 +1,9 @@
 <script setup>
+import router from "../router";
+
+const itemLookup = () => {
+    router.push(({name: 'itemlookup'}));
+}
 </script>
 <template>
     <div>
@@ -20,6 +25,7 @@
                 <v-list-item
                     prepend-icon="mdi-pencil"
                     title="Item Lookup"
+                    @click="itemLookup"
                 >
                 </v-list-item>
                 <v-list-item

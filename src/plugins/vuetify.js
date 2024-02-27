@@ -27,6 +27,7 @@ const myCustomLightTheme = {
     card: "EAEAEA",
     blue: "#1976D2",
     gray: "#F0F0F0",
+    darkgray: "#424242"
   },
 };
 
