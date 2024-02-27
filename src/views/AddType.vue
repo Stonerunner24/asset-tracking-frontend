@@ -75,7 +75,7 @@
     const getCatId = () =>{
         let catId = categories.value.data.find(cat => cat.catName === selectedCategoryId.value).id;
         return catId;
-        }
+    }
 
 
     const printStuff = () =>{
@@ -102,14 +102,45 @@
 
         console.log(type);
 
-        typeServices.create(type);
+        const newType = ref({});
+
+        newType.value = await typeServices.create(type);
 
         let fieldIds = [];
         let areItems = [];
+        let idType = newType.value.data.id;
 
         selectedItemId.value.forEach(function(data){
-            fieldIds.push(data)
-        })
+            fieldIds.push(data);
+            areItems.push(1);
+        });
+
+        selectedModelId.value.forEach(function(data){
+            fieldIds.push(data);
+            areItems.push(0);
+        });
+
+        console.log(newType);
+        console.log(newType.value.data.id);
+        console.log(idType);
+        console.log(fieldIds);
+        console.log(areItems);
+
+        const typeField = {
+            isItem: areItems,
+            fieldId: fieldIds,
+            typeId: idType,
+        };
+
+        //console.log(typeField.value);
+        //console.log(typeField.data);
+        console.log("TypeField JSON");
+        //console.log(typeField);
+        console.log(JSON.stringify(typeField));
+
+        //console.log(typeServices.getAll());
+        //console.log(typeServices.getAllTypeFields(1));
+        typeServices.createTypeFields(idType, JSON.stringify(typeField));
     }
 
 </script>
@@ -148,8 +179,7 @@
 
             <v-combobox chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox>
 
-            <v-btn
-            @click="printStuff()">Save</v-btn>
+            <!-- <v-btn @click="printStuff()">Save</v-btn> -->
 
             <v-btn
             @click="handleTypeCreate()">Save</v-btn>
