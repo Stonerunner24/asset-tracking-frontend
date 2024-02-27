@@ -17,17 +17,10 @@
     let numSelectedModels;
     //let selectedCat = ref(null);
 
-   
-
-
-
-
-    
-
     onMounted(async () =>{
         console.log("Starting up");
         //incrementModelCount();
-        console.log("num Fields" + numSelectedModels);
+        //console.log("num Fields" + numSelectedModels);
         await getAllCategories();
         await getAllFields();
     })
@@ -150,41 +143,62 @@
 
         const newType = ref({});
 
-        newType.value = await typeServices.create(type);
+        await typeServices.create(type)
+        .then(newType =>{
+            newType.value = newType;
+            console.log(newType.value.data.id);
+            let fieldIds = [];
+            let areItems = [];
+            let idOfType = newType.value.data.id;
+            fieldIds = getFieldIds();
+            areItems = getAreItems();
+            const typeField = {
+                isItem: areItems,
+                fieldId: fieldIds,
+            }
+            console.log(JSON.stringify(typeField));
+            typeServices.createTypeFields(idOfType, JSON.stringify(typeField));
 
-        let fieldIds = [];
-        let areItems = [];
-        let idType = newType.value.data.id;
+        })
+        .catch(error=>{
+            console.error(error);
+        })
+
+        // newType.value = await typeServices.create(type);
+
+        // let fieldIds = [];
+        // let areItems = [];
+        // let idType = newType.value.data.id;
 
         
-        console.log("setting field Ids");
-        fieldIds = getFieldIds();
-        areItems = getAreItems();
-        console.log(fieldIds);
-        console.log(newType);
-        console.log(newType.value.data.id);
-        console.log(idType);
+        // console.log("setting field Ids");
+        // fieldIds = getFieldIds();
+        // areItems = getAreItems();
+        // console.log(fieldIds);
+        // console.log(newType);
+        // console.log(newType.value.data.id);
+        // console.log(idType);
         
-        console.log(areItems);
+        // console.log(areItems);
 
-        const typeField = {
-            isItem: areItems,
-            fieldId: fieldIds,
-            //typeId: idType,
-        };
+        // const typeField = {
+        //     isItem: areItems,
+        //     fieldId: fieldIds,
+        //     //typeId: idType,
+        // };
 
-        //console.log(typeField.value);
-        //console.log(typeField.data);
-        console.log("TypeField JSON");
-        //console.log(typeField);
-        console.log(JSON.stringify(typeField));
+        // //console.log(typeField.value);
+        // //console.log(typeField.data);
+        // console.log("TypeField JSON");
+        // //console.log(typeField);
+        // console.log(JSON.stringify(typeField));
 
-        //console.log(typeServices.getAll());
-        //console.log(typeServices.getAllTypeFields(1));
-        console.log("printing field ids");
-        console.log(getFieldIds());
+        // //console.log(typeServices.getAll());
+        // //console.log(typeServices.getAllTypeFields(1));
+        // console.log("printing field ids");
+        // console.log(getFieldIds());
 
-        typeServices.createTypeFields(idType, JSON.stringify(typeField));
+        // typeServices.createTypeFields(idType, JSON.stringify(typeField));
     }
 
 </script>
