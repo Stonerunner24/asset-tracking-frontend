@@ -43,7 +43,7 @@ const router = createRouter({
           path:"/itemview/:id",
           alias: "/itemview/:id",
           name: "itemview",
-          component: ItemView
+          component: ItemView        
         },
         {
           path: "/viewCategories/",
@@ -65,6 +65,7 @@ const router = createRouter({
         },
       ]
     }
+    
   ],
 });
 
