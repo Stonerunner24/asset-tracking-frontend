@@ -5,18 +5,18 @@ import ocLogo from "/oc-logo-red.svg";
 
 <template>
   <v-app-bar app color="primary" height="80">
-    <v-img
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <v-img
           class="mx-2"
-          :src=ocLogo
+          :src="ocLogo"
           height="80"
           width="80"
           contain
         ></v-img>
-        <v-toolbar-title class="title">
-        Asset Tracking
-      </v-toolbar-title>
-      <v-spacer/>
-      <v-spacer/>
+      </v-col>
+    </v-row>
+    <v-spacer/>
   </v-app-bar>
   <v-container>
     <h1>Welcome to OC Asset Tracking</h1>

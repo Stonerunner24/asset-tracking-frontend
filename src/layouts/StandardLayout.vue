@@ -5,10 +5,8 @@
 <template>
     <div>
       <MenuBar />
-      <SideBar />
-      <v-container>
+        <SideBar />
         <router-view />
-      </v-container>
     </div>
 </template>
   
