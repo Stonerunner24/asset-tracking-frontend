@@ -35,12 +35,11 @@ const handleCredentialResponse = async (response) => {
   await AuthServices.loginUser(token)
     .then((response) => {
       user.value = response.data;
-      console.log("Response data");
-      console.log(response.data);
       Utils.setStore("user", user.value);
       fName.value = user.value.fName;
       lName.value = user.value.lName;
-      router.push({ name: "viewCategories" });
+      // Route to appropriate user page--if need be, control by user role
+      router.push({ name: "homepage" });
     })
     .catch((error) => {
       console.log("error", error);
