@@ -16,7 +16,8 @@ function goToViewItems(){
 
 </script>
 <template>
-    <div class="pb  -2 pt-4">
+<div class="ml-15 mt-5">
+    <div class="pb-2 pt-4">
         <v-card flat color="gray" class="pa-4" style="font-size: larger;">Welcome!</v-card>
     </div>
 
@@ -41,4 +42,5 @@ function goToViewItems(){
             </v-col>
         </v-row>
     </div>
+</div>
 </template>
