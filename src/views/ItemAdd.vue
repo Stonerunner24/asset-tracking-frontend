@@ -183,8 +183,13 @@
         serialNum.value = null;
         warrantyEnd.value = null;
         prodYear.value = null;
+<<<<<<< HEAD
         for(fieldValue in fieldValues.value){
             fieldValue.value = null;
+=======
+        for(fieldValue of fieldValues.value){
+            fieldValue = null;
+>>>>>>> 742b909e8201f2809411374856197fd79417348a
         }
     };
 
