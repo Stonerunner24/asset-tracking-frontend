@@ -56,9 +56,10 @@ onMounted (async() => {
             <v-col cols="12" md="6">
                 <div>Quicklinks</div>
                 <v-card color="gray" flat>
-                    <div v-if="userQuickLinks.length === 0">
+                    <div v-if="userQuickLinks.length <= 5">
                         <v-combobox :items="routePaths" item-text="name"></v-combobox>
                     </div>
+                    <v-btn v-for="p in userQuickLinks" @click="changePage(p.path)">{{ p.name }}</v-btn>
                 </v-card>
             </v-col>
         </v-row>

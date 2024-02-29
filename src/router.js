@@ -68,7 +68,7 @@ const router = createRouter({
           }
         },
         {
-          path: "/viewCategories/",
+          path: "/viewCategories/", 
           name: "viewCategories",
           component: ViewCategories,
           props: true,
