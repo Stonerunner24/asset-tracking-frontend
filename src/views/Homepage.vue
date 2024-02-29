@@ -2,11 +2,13 @@
 import router from "../router";
 import { onMounted, ref, computed } from "vue";
 import Utils from "../config/utils";
+import QuicklinkServices from "../services/quicklinkServices";
 
 const routes = router.options.routes;
 const routePaths = ref([]);
 const selectedPage = ref(null);
 let user = Utils.getStore("user");
+const userQuickLinks = ref([]);
 
 function changePage(route){
     console.log(route)
@@ -26,21 +28,27 @@ const setPages = async() => {
     console.log(routePaths.name)
 }
 
+async function getQuickLinks() {
+    try {
+        console.log(`user: ${user.userId}`);
+        const response = await QuicklinkServices.getByUserId(user.userId);
+        userQuickLinks.value = response.data;
+        console.log('User links:', userQuickLinks.value);
+    } catch (error) {
+        console.error('Error fetching User\'s quicklinks: ', error);
+    }
+}
+
 onMounted (async() => {
     await setPages();
+    await getQuickLinks();
 });
-
-// const pages = computed(() => {
-//     return routePaths.value.map(route => route.name);
-// });
 
 </script>
 <template>
 <div class="ml-15 mt-5">
-    <div>{{ user }}</div>
-    <div v-for="route in routePaths" :key="route.path">{{ route.name }}</div>
     <div class="pb-2 pt-4 mr-15">
-        <v-card flat color="gray" class="pa-4" style="font-size: larger;">Welcome!</v-card>
+        <v-card flat color="gray" class="pa-4" style="font-size: larger;">Welcome, {{ user.fName }}!</v-card>
     </div>
     <div class="pt-10">
         <!-- <div>{{ routePaths.name }}</div> -->
@@ -48,13 +56,12 @@ onMounted (async() => {
             <v-col cols="12" md="6">
                 <div>Quicklinks</div>
                 <v-card color="gray" flat>
-                    <div class="pa-5">
-                        <v-combobox :items="routePaths" item-text="name" item-value="path" v-model="selectedPage"></v-combobox>
-                        <v-btn flat color="silver"  @click="changePage(selectedPage.path)">View Categories</v-btn>
+                    <div v-if="userQuickLinks.length === 0">
+                        <v-combobox :items="routePaths" item-text="name"></v-combobox>
                     </div>
                 </v-card>
             </v-col>
         </v-row>
     </div>
 </div>
-</template>
+</template> 

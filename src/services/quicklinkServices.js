@@ -3,6 +3,9 @@ import apiClient from "./services.js";
 const QuickLinkService = {
   getAll() {
     return apiClient.get("/quicklink");
+  },  
+  getByUserId: function(userId) {
+    return apiClient.get(`/quicklink/?userId=${userId}`);
   },
   get(id) {
     return apiClient.get(`/quicklink/${id}`);
