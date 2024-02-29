@@ -34,7 +34,8 @@ const router = createRouter({
           name: "homepage",
           component: Homepage,
           meta: {
-            qlname: "Home"
+            qlname: "Home",
+            qlviewable: false,
           }
         },
         {
@@ -43,7 +44,8 @@ const router = createRouter({
           name: "itemlookup",
           component: ItemLookup,
           meta: {
-            qlname: "Item Lookup"
+            qlname: "Item Lookup",
+            qlviewable: true,
           }
         },
         {
@@ -52,7 +54,8 @@ const router = createRouter({
           name: "itemview",
           component: ItemView,
           meta: {
-            qlname: "Item Viewer"
+            qlname: "Item Viewer",
+            qlviewable: false,
           }   
         },
         {
@@ -60,7 +63,8 @@ const router = createRouter({
           name: "itemadd",
           component: ItemAdd,
           meta: {
-            qlname: "Item Add"
+            qlname: "Item Add",
+            qlviewable: true,
           }
         },
         {
@@ -69,7 +73,8 @@ const router = createRouter({
           component: ViewCategories,
           props: true,
           meta: {
-            qlname: "View All Categories"
+            qlname: "View All Categories",
+            qlviewable: true,
           }
         },
         {
@@ -78,7 +83,8 @@ const router = createRouter({
           component: ViewCategory,
           props: true,
           meta: {
-            qlname: "Category Viewer"
+            qlname: "Category Viewer",
+            qlviewable: false,
           }
         },
         {
@@ -87,7 +93,8 @@ const router = createRouter({
           component: TypeView,
           props: true,
           meta: {
-            qlname: "Type Viewer"
+            qlname: "Type Viewer",
+            qlviewable: false,
           }
         },
       ]

@@ -1,10 +1,12 @@
 <script setup>
 import router from "../router";
 import { onMounted, ref, computed } from "vue";
+import Utils from "../config/utils";
 
 const routes = router.options.routes;
 const routePaths = ref([]);
 const selectedPage = ref(null);
+let user = Utils.getStore("user");
 
 function changePage(route){
     console.log(route)
@@ -35,7 +37,7 @@ onMounted (async() => {
 </script>
 <template>
 <div class="ml-15 mt-5">
-    <div>{{ routes }}</div>
+    <div>{{ user }}</div>
     <div v-for="route in routePaths" :key="route.path">{{ route.name }}</div>
     <div class="pb-2 pt-4 mr-15">
         <v-card flat color="gray" class="pa-4" style="font-size: larger;">Welcome!</v-card>
