@@ -6,7 +6,7 @@ import Homepage from "./views/Homepage.vue";
 import ItemLookup from "./views/ItemLookup.vue";
 import ItemView from "./views/ItemView.vue";
 import ItemAdd from "./views/ItemAdd.vue";
-import TypeView from "./views/TypeView.vue";
+import TypeView from "./views/TypeView.vue"
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 
@@ -32,42 +32,63 @@ const router = createRouter({
         {
           path: "",
           name: "homepage",
-          component: Homepage
+          component: Homepage,
+          meta: {
+            qlname: "Home"
+          }
         },
         {
           path: "/itemlookup",
           alias: "/itemlookup",
           name: "itemlookup",
-          component: ItemLookup
+          component: ItemLookup,
+          meta: {
+            qlname: "Item Lookup"
+          }
         },
         {
           path:"/itemview/:id",
           alias: "/itemview/:id",
           name: "itemview",
-          component: ItemView        
+          component: ItemView,
+          meta: {
+            qlname: "Item Viewer"
+          }   
         },
         {
           path:"/itemadd",
           name: "itemadd",
-          component: ItemAdd
+          component: ItemAdd,
+          meta: {
+            qlname: "Item Add"
+          }
         },
         {
           path: "/viewCategories/",
           name: "viewCategories",
           component: ViewCategories,
           props: true,
+          meta: {
+            qlname: "View All Categories"
+          }
         },
         {
           path: "/viewCategory/:id",
           name: "viewCategory",
           component: ViewCategory,
           props: true,
+          meta: {
+            qlname: "Category Viewer"
+          }
         },
         {
           path: "/typeview/:id",
           name: "typeview",
           component: TypeView,
           props: true,
+          meta: {
+            qlname: "Type Viewer"
+          }
         },
       ]
     }
