@@ -220,27 +220,33 @@
             ></v-text-field>
 
             <br>
+            <div style = "font-size: large;">
+                <p>Model Fields</p>
+            </div>
+            <v-card color="gray" class = "pa-4">
+                <v-combobox 
+                    chips
+                    closable-chips
+                    multiple
+                    label = "Model Field"
+                    v-model="selectedModelId"
+                    :items="fieldNames"
+                    :return-object="true">
+                </v-combobox>
+            </v-card>
 
-            <p>Model Fields</p>
+            
+            <div style = "font-size: large;">
+                <p>Item Fields</p>
+            </div>
+            
+            <v-card color = "gray" class = "pa-4"><v-combobox chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox></v-card>
 
-            <v-combobox 
-            chips
-            closable-chips
-            multiple
-            label = "Model Field"
-            v-model="selectedModelId"
-            :items="fieldNames"
-            :return-object="true">
-            </v-combobox>
+            
 
-            <p>Item Fields</p>
+            <br><br>
 
-            <v-combobox chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox>
-
-            <!-- <v-btn @click="printStuff()">Save</v-btn> -->
-
-            <v-btn
-            @click="handleTypeCreate()">Save</v-btn>
+            <v-btn color = "blue" @click="handleTypeCreate()">Save</v-btn>
 
             
 
