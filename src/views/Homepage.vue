@@ -1,6 +1,6 @@
 <script setup>
 import router from "../router";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import Utils from "../config/utils";
 import QuicklinkServices from "../services/quicklinkServices";
 
@@ -9,7 +9,7 @@ const routePaths = ref([]);
 const selectedPage = ref(null);
 let user = Utils.getStore("user");
 const userQuickLinks = ref([]);
-let showAdd = true;
+const hideAdd = ref(true);
 
 function changePage(route){
     console.log(route)
@@ -20,11 +20,14 @@ const setPages = async() => {
     if (homeRoute && homeRoute.children) {
         for (const childRoute of homeRoute.children) {
             if (childRoute.meta.qlviewable == true) {
+                console.log("user id ", user.userId)
                 const data = {
                     "path": childRoute.path,
                     "name": childRoute.meta ? childRoute.meta.qlname : childRoute.name,
+                    "userId": user.userId,
                 }
                 routePaths.value.push(data);
+                console.log("pushed data:", data)
             }
         }
     }
@@ -45,11 +48,31 @@ async function saveLink(){
         const data = {
             name: selectedPage.value.name,
             path: selectedPage.value.path,
+            userId: user.userId,
         }
         await QuicklinkServices.create(data);
+        await getQuickLinks();
+        changeAddView();
     } catch (error) {
-
+        console.log(error);
     }
+}
+
+async function deleteLink(id) {
+    console.log("action")
+    try{
+        await QuicklinkServices.delete(id);
+        await getQuickLinks();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function changeAddView(){
+    hideAdd.value = !hideAdd.value;
+}
+function cancelLink(){
+    hideAdd.value = !hideAdd.value;
 }
 
 onMounted (async() => {
@@ -68,12 +91,37 @@ onMounted (async() => {
         <div class="pt-10">
             <v-row>
                 <v-col cols="12" md="6">
-                    <div>Quicklinks</div>
+                    
                     <v-card color="gray" flat>
-                        <div class="pa-3">
-                            <v-btn v-for="p in userQuickLinks" flat @click="changePage(p.path)">{{ p.name }}</v-btn>
-                        </div>
-                        <div class="pa-3" v-if="userQuickLinks.length <= 5">
+                        <div class="pa-3">Quicklinks</div>
+                        <v-row style="justify-content: center;">
+                            <template v-for="p in userQuickLinks">
+                                <v-col cols="auto">
+                                    <div class="pt-3">
+                                    <v-btn 
+                                        color="blue" 
+                                        flat @click="changePage(p.path)" 
+                                        style="width: 30rem;"
+                                    >{{ p.name }}</v-btn>
+                                    <v-icon 
+                                        v-on:click="deleteLink(p.id)"
+                                    >mdi-delete</v-icon>
+                                    </div>
+                                </v-col>
+                            </template>
+                        </v-row>
+                        <div class="pa-3" v-if="userQuickLinks.length <= 5" style="display: flex; justify-content: center;">
+                            <div v-if="hideAdd == true" class="pt-3">
+                                <v-btn 
+                                flat @click="changeAddView()" 
+                                style="width: 30rem;" 
+                                >
+                                <v-icon>mdi-plus</v-icon>
+                                Add Link
+                                </v-btn>
+                                <v-icon></v-icon>
+                            </div>
+                            <div v-if="hideAdd == false">
                             <v-combobox 
                                 v-model="selectedPage" 
                                 :items="routePaths" 
@@ -94,6 +142,7 @@ onMounted (async() => {
                                 @click="cancelLink()"
                                 >Cancel</v-btn>
                             </div>
+                            </div>
                         </div>
                     
                     </v-card>
@@ -102,4 +151,3 @@ onMounted (async() => {
         </div>
     </div>
     </template>
-    
