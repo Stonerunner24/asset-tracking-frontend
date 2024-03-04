@@ -2,7 +2,7 @@ import apiClient from "./services.js";
 
 export default {
   getAll() {
-    return apiClient.get("/model");
+    return apiClient.get("/model/");
   },
   get(id) {
     return apiClient.get(`/model/${id}`);
