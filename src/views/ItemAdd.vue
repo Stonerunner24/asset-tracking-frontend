@@ -101,7 +101,7 @@
         cascade = true;
     };
 
-    const changeType = async() => {
+    const changeType = async(clearModel) => {
         if(cascade){
             activeModel.value = null;
         }
@@ -122,6 +122,8 @@
         response = await ModelServices.getAllByType(type.id);
         models.value = response.data;
         modelNames.value = models.value.map(model => model.model);
+console.log(modelFields);
+        if(clearModel) modelFields.value = [];
     };
 
     const changeModel = async() => {
@@ -134,7 +136,7 @@
 
             activeType.value = types.value.find(type => type.id === model.typeId).typeName;
             cascade = false;
-            changeType();
+            await changeType(false);
         }
 
         try{
@@ -183,9 +185,12 @@
         serialNum.value = null;
         warrantyEnd.value = null;
         prodYear.value = null;
-        for(fieldValue of fieldValues.value){
-            fieldValue = null;
+        console.log(fieldValues.value);
+        //had to use a classic for loop here because the fancy ones weren't doing what I wanted them to.
+        for(let x = 0; x < fieldValues.value.length; x++){
+            fieldValues.value[x] = null;
         }
+console.log(fieldValues.value);
     };
 
     const clearAll = async() => {
@@ -205,7 +210,6 @@
         <v-row>
             <v-col class="text-left">
                 <v-combobox
-                    clearable="true"
                     label="Category"
                     v-model="activeCat"
                     @update:modelValue="changeCategory"
@@ -214,16 +218,14 @@
             </v-col>
             <v-col class="text-left">
                 <v-combobox
-                    clearable="true"
                     label="Type"
                     v-model="activeType"
-                    @update:modelValue="changeType"
+                    @update:modelValue="changeType(true)"
                     :items="typeNames"
                 ></v-combobox>
             </v-col>
             <v-col>
                 <v-combobox
-                    clearable="true"
                     label="Model"
                     v-model="activeModel"
                     @update:modelValue="changeModel"
@@ -236,8 +238,10 @@
     </div>
     <div class="ml-12 mr-12">
         <v-card
+            v-if="activeModel"
             :title="activeModel"
             color="card"
+            class="pb-4"
         >
             <v-row class="mr-1 ml-1" v-if="modelFields">
                 <v-col
@@ -294,9 +298,7 @@
                     >
                     </v-text-field>
                 </v-col>
-
             </v-row>
-
         </v-card>
     </div>
     <div class="ml-12 mr-12" style="float:right">
@@ -309,7 +311,7 @@
                     Cancel
                 </v-btn>
             </v-col>
-            <v-col class="text-right" v-if="activeModel">
+            <v-col class="text-right">
                 <v-btn
                     color="darkgray"
                     @click="clearAll"
