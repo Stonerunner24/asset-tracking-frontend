@@ -122,7 +122,7 @@
         response = await ModelServices.getAllByType(type.id);
         models.value = response.data;
         modelNames.value = models.value.map(model => model.model);
-        console.log(modelFields);
+console.log(modelFields);
         if(clearModel) modelFields.value = [];
     };
 
@@ -190,7 +190,7 @@
         for(let x = 0; x < fieldValues.value.length; x++){
             fieldValues.value[x] = null;
         }
-        console.log(fieldValues.value);
+console.log(fieldValues.value);
     };
 
     const clearAll = async() => {
