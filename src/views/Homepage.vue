@@ -20,14 +20,12 @@ const setPages = async() => {
     if (homeRoute && homeRoute.children) {
         for (const childRoute of homeRoute.children) {
             if (childRoute.meta.qlviewable == true) {
-                console.log("user id ", user.userId)
                 const data = {
                     "path": childRoute.path,
                     "name": childRoute.meta ? childRoute.meta.qlname : childRoute.name,
                     "userId": user.userId,
                 }
                 routePaths.value.push(data);
-                console.log("pushed data:", data)
             }
         }
     }
@@ -36,6 +34,7 @@ const setPages = async() => {
 
 async function getQuickLinks() {
     try {
+        console.log("getting:" + user.userId)
         const response = await QuicklinkServices.getByUserId(user.userId);
         userQuickLinks.value = response.data;
     } catch (error) {
@@ -83,6 +82,7 @@ onMounted (async() => {
 </script>
 <template>
     <div class="ml-15 mt-5">
+        <div>{{ userQuickLinks }}</div>
         <div v-for="route in routePaths">
         </div>
         <div class="pb-2 pt-4 mr-15">
@@ -91,7 +91,6 @@ onMounted (async() => {
         <div class="pt-10">
             <v-row>
                 <v-col cols="12" md="6">
-                    
                     <v-card color="gray" flat>
                         <div class="pa-3">Quicklinks</div>
                         <v-row style="justify-content: center;">

@@ -4,7 +4,7 @@ const QuickLinkService = {
   getAll() {
     return apiClient.get("/quicklink");
   },  
-  getByUserId: function(userId) {
+  getByUserId(userId) {
     return apiClient.get(`/quicklink/?userId=${userId}`);
   },
   get(id) {
