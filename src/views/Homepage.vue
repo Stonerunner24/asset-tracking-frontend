@@ -82,7 +82,6 @@ onMounted (async() => {
 </script>
 <template>
     <div class="ml-15 mt-5">
-        <div>{{ userQuickLinks }}</div>
         <div v-for="route in routePaths">
         </div>
         <div class="pb-2 pt-4 mr-15">

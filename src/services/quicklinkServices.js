@@ -5,7 +5,7 @@ const QuickLinkService = {
     return apiClient.get("/quicklink");
   },  
   getByUserId(userId) {
-    return apiClient.get(`/quicklink/?userId=${userId}`);
+    return apiClient.get(`/quicklink/user/${userId}`);
   },
   get(id) {
     return apiClient.get(`/quicklink/${id}`);
