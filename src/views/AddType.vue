@@ -207,17 +207,36 @@
     <Sidebar></Sidebar>
     <div class = "ma-15 mt-7">
         <v-form>
-            <v-combobox 
-            label="Category"
-            v-model="selectedCategoryId"
-            :items ="catNames"                     
-            :return-object = "true"></v-combobox>     
+            <v-container>
+                <v-row>
+                    <v-combobox 
+                color="blue"
+                variant="underlined"
+                label="Category"
+                v-model="selectedCategoryId"
+                :items ="catNames"                     
+                :return-object = "true"></v-combobox> 
+                
+                <v-btn color = "blue" @click="handleTypeCreate()">Save</v-btn>
+                
+                </v-row>
+                <v-row>
+                    <v-text-field
+                        color="blue"
+                        variant="underlined"
+                        label = "Name"
+                        placeholder = "Type name"
+                        v-model = "nameType"
+                    ></v-text-field>
+                </v-row>
+                
+                   
             
-            <v-text-field
-            label = "Name"
-            placeholder = "Type name"
-            v-model = "nameType"
-            ></v-text-field>
+               
+         
+            </v-container>
+            
+            
 
             <br>
             <div style = "font-size: large;">
@@ -225,6 +244,7 @@
             </div>
             <v-card color="gray" class = "pa-4">
                 <v-combobox 
+                    color="blue"
                     chips
                     closable-chips
                     multiple
@@ -240,13 +260,13 @@
                 <p>Item Fields</p>
             </div>
             
-            <v-card color = "gray" class = "pa-4"><v-combobox chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox></v-card>
+            <v-card color = "gray" class = "pa-4"><v-combobox color="blue" chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox></v-card>
 
             
 
             <br><br>
 
-            <v-btn color = "blue" @click="handleTypeCreate()">Save</v-btn>
+            
 
             
 
