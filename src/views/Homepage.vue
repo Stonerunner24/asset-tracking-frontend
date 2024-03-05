@@ -38,7 +38,7 @@ async function getQuickLinks() {
         const response = await QuicklinkServices.getByUserId(user.userId);
         userQuickLinks.value = response.data;
     } catch (error) {
-        console.error('Error fetching User\'s quicklinks: ', error);
+        userQuickLinks.value = [];
     }
 }
 
