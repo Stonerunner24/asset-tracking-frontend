@@ -127,6 +127,12 @@
 
 
     }
+    const clearSelections = () =>{
+        selectedCategoryId.value = null;
+        nameType.value = null;
+        selectedItemId.value = [];
+        selectedModelId.value = []
+    }
 
     const handleTypeCreate = async() =>{
 
@@ -159,46 +165,16 @@
             console.log(JSON.stringify(typeField));
             typeServices.createTypeFields(idOfType, typeField);
 
+            clearSelections();
+
         })
         .catch(error=>{
             console.error(error);
         })
 
-        // newType.value = await typeServices.create(type);
 
-        // let fieldIds = [];
-        // let areItems = [];
-        // let idType = newType.value.data.id;
 
         
-        // console.log("setting field Ids");
-        // fieldIds = getFieldIds();
-        // areItems = getAreItems();
-        // console.log(fieldIds);
-        // console.log(newType);
-        // console.log(newType.value.data.id);
-        // console.log(idType);
-        
-        // console.log(areItems);
-
-        // const typeField = {
-        //     isItem: areItems,
-        //     fieldId: fieldIds,
-        //     //typeId: idType,
-        // };
-
-        // //console.log(typeField.value);
-        // //console.log(typeField.data);
-        // console.log("TypeField JSON");
-        // //console.log(typeField);
-        // console.log(JSON.stringify(typeField));
-
-        // //console.log(typeServices.getAll());
-        // //console.log(typeServices.getAllTypeFields(1));
-        // console.log("printing field ids");
-        // console.log(getFieldIds());
-
-        // typeServices.createTypeFields(idType, JSON.stringify(typeField));
     }
 
 </script>
@@ -207,34 +183,49 @@
     <Sidebar></Sidebar>
     <div class = "ma-15 mt-7">
         <v-form>
-            <v-container>
-                <v-row>
-                    <v-combobox 
-                color="blue"
-                variant="underlined"
-                label="Category"
-                v-model="selectedCategoryId"
-                :items ="catNames"                     
-                :return-object = "true"></v-combobox> 
+            <div>
+                <v-row align-self="end">
+                    <v-col cols="12" md="6">
+                        <v-combobox 
+                            color="blue"
+                            variant="underlined"
+                            label="Category"
+                            v-model="selectedCategoryId"
+                            :items ="catNames"                     
+                            :return-object = "true"></v-combobox> 
                 
-                <v-btn color = "blue" @click="handleTypeCreate()">Save</v-btn>
+                    </v-col>
+                    
+                    <v-col cols="12" md="6" class = "text-right">
+                        
+                        
+                        <v-btn 
+                            color = "blue" 
+                            @click="handleTypeCreate()"
+                            >Save
+                        </v-btn>
+                    </v-col>
+                    
                 
                 </v-row>
                 <v-row>
-                    <v-text-field
-                        color="blue"
-                        variant="underlined"
-                        label = "Name"
-                        placeholder = "Type name"
-                        v-model = "nameType"
-                    ></v-text-field>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            color="blue"
+                            variant="underlined"
+                            label = "Name"
+                            placeholder = "Type name"
+                            v-model = "nameType"
+                        ></v-text-field>
+                    </v-col>
+                    
                 </v-row>
                 
                    
             
                
          
-            </v-container>
+            </div>
             
             
 
@@ -260,19 +251,16 @@
                 <p>Item Fields</p>
             </div>
             
-            <v-card color = "gray" class = "pa-4"><v-combobox color="blue" chips closable-chips multiple label="Item Field" v-model = "selectedItemId" :items="fieldNames" :return-object = "true"></v-combobox></v-card>
-
-            
-
-            <br><br>
-
-            
-
-            
-
-            
-
-            
+            <v-card color = "gray" class = "pa-4">
+                <v-combobox 
+                color="blue" 
+                chips 
+                closable-chips 
+                multiple label="Item Field" 
+                v-model = "selectedItemId" 
+                :items="fieldNames" 
+                :return-object = "true">
+            </v-combobox></v-card>   
         </v-form>
     </div>
 </template>
