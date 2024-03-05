@@ -65,21 +65,20 @@ const router = createRouter({
           component: TypeView,
           props: true,
         },
+        {
+          path: "/viewModel/",
+          name: "viewModel",
+          component: ViewModel,
+          props: true,
+        },
+        {
+          path: "/addModel/",
+          name: "addModel",
+          component: AddModel,
+          props: true,
+        },
       ]
-    }
-    
-    {
-      path: "/viewModel/",
-      name: "viewModel",
-      component: ViewModel,
-      props: true,
-    },
-    {
-      path: "/addModel/",
-      name: "addModel",
-      component: AddModel,
-      props: true,
-    },
+    }   
   ],
 });
 
