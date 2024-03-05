@@ -8,6 +8,8 @@ import ItemView from "./views/ItemView.vue";
 import TypeView from "./views/TypeView.vue"
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
+import ViewModel from "./views/ViewModel.vue";
+import AddModel from "./views/AddModel.vue";
 
 
 // import layouts
@@ -66,6 +68,18 @@ const router = createRouter({
       ]
     }
     
+    {
+      path: "/viewModel/",
+      name: "viewModel",
+      component: ViewModel,
+      props: true,
+    },
+    {
+      path: "/addModel/",
+      name: "addModel",
+      component: AddModel,
+      props: true,
+    },
   ],
 });
 
