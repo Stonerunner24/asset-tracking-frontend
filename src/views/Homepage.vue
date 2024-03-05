@@ -52,6 +52,7 @@ async function saveLink(){
         await QuicklinkServices.create(data);
         await getQuickLinks();
         changeAddView();
+        selectedPage.value = null;
     } catch (error) {
         console.log(error);
     }
@@ -91,7 +92,7 @@ onMounted (async() => {
             <v-row>
                 <v-col cols="12" md="6">
                     <v-card color="gray" flat>
-                        <div class="pa-3">Quicklinks</div>
+                        <div class="pa-3">Quicklinks - {{ userQuickLinks.length }}/6</div>
                         <v-row style="justify-content: center;">
                             <template v-for="p in userQuickLinks">
                                 <v-col cols="auto">
