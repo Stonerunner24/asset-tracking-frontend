@@ -101,7 +101,11 @@ const router = createRouter({
         {
           path: "/modellookup",
           name: "modellookup",
-          component: ModelLookup
+          component: ModelLookup,          
+          meta: {
+            qlname: "Model Lookup",
+            qlviewable: true,
+          }
         },
       ]
     }
