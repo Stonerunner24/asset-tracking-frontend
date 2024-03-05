@@ -9,6 +9,7 @@ import ItemAdd from "./views/ItemAdd.vue";
 import TypeView from "./views/TypeView.vue";
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
+import ModelLookup from "./views/ModelLookup.vue";
 
 
 // import layouts
@@ -68,6 +69,11 @@ const router = createRouter({
           name: "typeview",
           component: TypeView,
           props: true,
+        },
+        {
+          path: "/modellookup",
+          name: "modellookup",
+          component: ModelLookup
         },
       ]
     }

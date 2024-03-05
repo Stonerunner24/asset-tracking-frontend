@@ -5,6 +5,9 @@ export default {
     getAll(){
         return apiClient.get(baseURL);
     },
+    getAllForModel(modelId){
+        return apiClient.get(baseURL + `model/${modelId}`);
+    },
     getOne(itemId){
         return apiClient.get(baseURL + itemId);
     },
