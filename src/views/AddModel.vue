@@ -39,6 +39,11 @@ async function getTypesForCategory(categoryId) {
     }
 }
 
+async function changeCategory() {
+    // Check to see if a category is selected
+    // If category is null, set types to 
+}
+
 onMounted(async () => {
     await getCategories();
     await getAllTypes();
@@ -51,13 +56,10 @@ onMounted(async () => {
         <div style="font-size: x-large;">Add Model</div> 
         <!-- Category combobox. Needs to eventually restrict categories to only those assigned to user -->
         <v-combobox clearable label="Category" :items="categoryNames"></v-combobox>
-
         <!-- Type combo box -->
         <v-combobox clearable label="Type" :items="typeNames"></v-combobox>
-
         <!-- Name text entry -->
         <v-text-field clearable label="Name"></v-text-field>
-
         
     </div>
 </template>
