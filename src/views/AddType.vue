@@ -1,9 +1,9 @@
 <script setup>
     import { onMounted, ref, computed } from "vue";
-    import Sidebar from "../components/SideBar.vue";
-    import categorySerices from "../services/categorySerices";
+    
+    import categorySerices from "../services/categoryServices";
     import fieldServices from "../services/fieldServices";
-    import typeServices from "../services/typeServives";
+    import typeServices from "../services/typeServices";
 
 
     const categories = ref([]);
