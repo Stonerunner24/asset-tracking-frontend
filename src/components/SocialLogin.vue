@@ -23,7 +23,7 @@ const loginWithGoogle = () => {
     type: "standard",
     theme: "outline",
     size: "large",
-    text: "signup_with",
+    text: "Sign in with OC SSO",
     width: 400,
   });
 };
@@ -38,7 +38,8 @@ const handleCredentialResponse = async (response) => {
       Utils.setStore("user", user.value);
       fName.value = user.value.fName;
       lName.value = user.value.lName;
-      router.push({ name: "tutorials" });
+      // Route to appropriate user page--if need be, control by user role
+      router.push({ name: "homepage" });
     })
     .catch((error) => {
       console.log("error", error);

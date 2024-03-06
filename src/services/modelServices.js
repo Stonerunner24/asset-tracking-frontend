@@ -10,6 +10,9 @@ export default {
   getAllByType(typeId){
     return apiClient.get(`/model/type/${typeId}`);
   },
+  getAllFields(modelId){
+    return apiClient.get(`/model/fields/${modelId}`);
+  },
   create(data) {
     return apiClient.post("/model", data);
   },

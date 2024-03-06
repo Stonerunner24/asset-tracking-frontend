@@ -1,17 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+// import pages
 import Login from "./views/Login.vue";
-
-import TutorialsList from "./views/TutorialsList.vue";
-import EditTutorial from "./views/EditTutorial.vue";
-import AddTutorial from "./views/AddTutorial.vue";
-import ViewTutorial from "./views/ViewTutorial.vue";
-import AddLesson from "./views/AddLesson.vue";
-import EditLesson from "./views/EditLesson.vue";
-
+import Homepage from "./views/Homepage.vue";
+import ItemLookup from "./views/ItemLookup.vue";
+import ItemView from "./views/ItemView.vue";
+import ItemAdd from "./views/ItemAdd.vue";
+import TypeView from "./views/TypeView.vue"
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
-import AddType from "./views/addType.vue";
+import ModelLookup from "./views/ModelLookup.vue";
+
+
+// import layouts
+import StandardLayout from "./layouts/StandardLayout.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,58 +25,87 @@ const router = createRouter({
       component: Login,
     },
     {
-      path: "/tutorials",
-      name: "tutorials",
-      component: TutorialsList,
-    },
-    {
-      path: "/edit/:id",
-      name: "edit",
-      component: EditTutorial,
-      props: true,
-    },
-    {
-      path: "/add",
-      name: "add",
-      component: AddTutorial,
-    },
-    {
-      path: "/view/:id",
-      name: "view",
-      component: ViewTutorial,
-      props: true,
-    },
-    {
-      path: "/addLesson/:tutorialId",
-      name: "addLesson",
-      component: AddLesson,
-      props: true,
-    },
-    {
-      path: "/editLesson/:tutorialId/:lessonId",
-      name: "editLesson",
-      component: EditLesson,
-      props: true,
-    },
-    {
-      path: "/viewCategories/",
-      name: "viewCategories",
-      component: ViewCategories,
-      props: true,
-    },
-    {
-      path: "/viewCategory/",
-      name: "viewCategory",
-      component: ViewCategory,
-      props: true,
-    },
-    {
-      path: "/addtype",
-      name: "addType",
-      component: AddType,
-      props: false
+      // Parent path to all standardLayout pages
+      // It contains the sidebar and menubar
+      path: "/home",
+      component: StandardLayout,
+      children: [
+        {
+          path: "",
+          name: "homepage",
+          component: Homepage,
+          meta: {
+            qlname: "Home",
+            qlviewable: false,
+          }
+        },
+        {
+          path: "/itemlookup",
+          alias: "/itemlookup",
+          name: "itemlookup",
+          component: ItemLookup,
+          meta: {
+            qlname: "Item Lookup",
+            qlviewable: true,
+          }
+        },
+        {
+          path:"/itemview/:id",
+          alias: "/itemview/:id",
+          name: "itemview",
+          component: ItemView,
+          meta: {
+            qlname: "Item Viewer",
+            qlviewable: false,
+          }   
+        },
+        {
+          path:"/itemadd",
+          name: "itemadd",
+          component: ItemAdd,
+          meta: {
+            qlname: "Item Add",
+            qlviewable: true,
+          }
+        },
+        {
+          path: "/viewCategories/", 
+          name: "viewCategories",
+          component: ViewCategories,
+          props: true,
+          meta: {
+            qlname: "View All Categories",
+            qlviewable: true,
+          }
+        },
+        {
+          path: "/viewCategory/:id",
+          name: "viewCategory",
+          component: ViewCategory,
+          props: true,
+          meta: {
+            qlname: "Category Viewer",
+            qlviewable: false,
+          }
+        },
+        {
+          path: "/typeview/:id",
+          name: "typeview",
+          component: TypeView,
+          props: true,
+          meta: {
+            qlname: "Type Viewer",
+            qlviewable: false,
+          }
+        },
+        {
+          path: "/modellookup",
+          name: "modellookup",
+          component: ModelLookup
+        },
+      ]
     }
-
+    
   ],
 });
 

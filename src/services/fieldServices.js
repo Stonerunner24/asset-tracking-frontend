@@ -1,4 +1,5 @@
 import apiClient from "./services";
+const { authenticate } = require("../authorization/authorization.js");
 //const { authenticate } = require("../authorization/authorization.js");
 
 export default {
