@@ -229,7 +229,7 @@
             
             
 
-            <br>
+            <br><br><br>
             <div style = "font-size: large;">
                 <p>Model Fields</p>
             </div>
@@ -246,7 +246,7 @@
                 </v-combobox>
             </v-card>
 
-            
+            <br><br><br>
             <div style = "font-size: large;">
                 <p>Item Fields</p>
             </div>
