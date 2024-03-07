@@ -1,8 +1,10 @@
 <script setup>
     import BuildingServices from "../services/buildingServices";
-    import { ref, onMounted } from "vue";
+    import { ref, onMounted, computed } from "vue";
+    import router from "../router";
 
     const buildings = ref([]);
+    const search = ref('');
 
     const headers = ref([
         { title: 'Name', value: 'buildingName'},
@@ -23,6 +25,17 @@
         }
     }
 
+    const filteredBuildings = computed(() =>{
+        return buildings.value.filter(building => {
+            return building.buildingName.toLowerCase().includes(search.value.toLowerCase()) ||
+            building.buildingTag.toLowerCase().includes(search.value.toLowerCase());
+        });
+    });
+
+    function viewBuilding() {
+        router.push('/buildingview')
+    }
+
     onMounted(async () => {
         await getBuildings();
     });
@@ -30,7 +43,16 @@
 <template>
     <div class="ma-15 mt-7">
         <div style="font-size: x-large;">Building Lookup</div>
-        <v-data-table :items="buildings" class="display" :headers="headers">
+        <div class="pt-5">
+        <v-text-field
+            v-model="search"
+            label="Search"
+            prepend-inner-icon="mdi-magnify"
+            single-line
+            variant="outlined"
+            hide-details
+        ></v-text-field>
+        <v-data-table :items="filteredBuildings" class="display" :headers="headers">
             <template v-slot:item="{ item }">
                 <tr>
                     <td>{{ item.buildingName }}</td>
@@ -39,10 +61,11 @@
                     <td>{{ item.numStories }}</td>
                     <td>{{ item.sqFeet }}</td>
                     <td class="text-right">
-                        <v-btn flat color="blue" size="small">view</v-btn>
+                        <v-btn flat color="blue" size="small" @click="viewBuilding()">view</v-btn>
                     </td>
                 </tr>
             </template>
         </v-data-table>
+        </div>
     </div>
 </template>

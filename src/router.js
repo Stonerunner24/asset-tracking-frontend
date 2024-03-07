@@ -10,11 +10,11 @@ import TypeView from "./views/TypeView.vue"
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 import ModelLookup from "./views/ModelLookup.vue";
-
+import BuildingLookup from "./views/BuildingLookup.vue";
+import BuildingView from "./views/BuildingView.vue"
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
-import BuildingLookup from "./views/BuildingLookup.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -116,7 +116,16 @@ const router = createRouter({
             qlname: "Building Lookup",
             qlviewable: true,
           }
-        }
+        },
+        {
+          path: "/buildingview",
+          name: "buildingview",
+          component: BuildingView,
+          meta: {
+            qlname: "Building View",
+            qlviewable: false,
+          }
+        },
       ]
     }
     
