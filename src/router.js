@@ -14,6 +14,7 @@ import ModelLookup from "./views/ModelLookup.vue";
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
+import BuildingLookup from "./views/BuildingLookup.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,8 +102,21 @@ const router = createRouter({
         {
           path: "/modellookup",
           name: "modellookup",
-          component: ModelLookup
+          component: ModelLookup,
+          meta: {
+            qlname: "Model Lookup",
+            qlviewable: true,
+          }
         },
+        {
+          path: "/buildinglookup",
+          name: "buildinglookup",
+          component: BuildingLookup,
+          meta: {
+            qlname: "Building Lookup",
+            qlviewable: true,
+          }
+        }
       ]
     }
     
