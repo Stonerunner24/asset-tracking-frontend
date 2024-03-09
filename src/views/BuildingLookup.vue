@@ -32,8 +32,8 @@
         });
     });
 
-    function viewBuilding() {
-        router.push('/buildingview')
+    function viewBuilding(buildingId) {
+        router.push(`/buildingview/${buildingId}`)
     }
 
     onMounted(async () => {
@@ -61,7 +61,7 @@
                     <td>{{ item.numStories }}</td>
                     <td>{{ item.sqFeet }}</td>
                     <td class="text-right">
-                        <v-btn flat color="blue" size="small" @click="viewBuilding()">view</v-btn>
+                        <v-btn flat color="blue" size="small" @click="viewBuilding(item.id)">view</v-btn>
                     </td>
                 </tr>
             </template>
