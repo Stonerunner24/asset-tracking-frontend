@@ -84,6 +84,7 @@
         <v-card
             :title="model.model"
             color="card"
+            class="pb-4"
         >
             <v-row class="mr-1 ml-1">
                 <v-col
@@ -102,7 +103,7 @@
     <div class="mr-12 ml-12 mt-8">
         <v-card
             title="Item Fields"
-            class="elevation-0"
+            class="elevation-0 pb-4"
         >
             <v-row class="mr-1 ml-1">
                 <v-col

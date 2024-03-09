@@ -84,8 +84,7 @@ const clearFilters = async() => {
 };
 
 const viewModel = (modelId) => {
-    console.log('Navigating to model with id: ' + modelId);
-    //router.push
+    router.push(({name: 'viewModel', params: {id: modelId}}));
 };
 
 const addModel = () => {

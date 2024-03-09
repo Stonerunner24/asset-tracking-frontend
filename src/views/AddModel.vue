@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import modelServices from "../services/modelServices";
 import categoryServices from "../services/categoryServices";
-import typeServices from "../services/typeServives";
+import typeServices from "../services/typeServices";
 import router from "../router";
 
 const categories = ref([]);

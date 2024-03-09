@@ -110,10 +110,13 @@ const router = createRouter({
           }
         },
         {
-          path: "/viewModel/",
+          path: "/viewModel/:id",
           name: "viewModel",
           component: ViewModel,
-          props: true,
+          meta: {
+            qlname: "Model View",
+            qlviewable: false,
+          }
         },
         {
           path: "/addModel/",
