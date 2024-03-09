@@ -47,9 +47,9 @@ async function getTypesForCategory(categoryId) {
 async function getFieldsForType(typeId) {
     console.log("In getFieldsForType");
     try {
-        const response = await typeServices.getAllFields(typeId);
+        const response = await typeServices.getAllModelFields(typeId);
         console.log(response.data);
-        modelFields.value = response.data.filter(typeField => typeField.isItem == false);
+        modelFields.value = response.data;
         console.log(modelFields.value);
     } catch (error) {
         console.error("Error fetching typeFields: ", error);
@@ -109,11 +109,11 @@ onMounted(async () => {
         <v-text-field clearable label="Name"></v-text-field>
         
         <!-- Model fields -->
-        <div class="ml-12 mr-12">
+        <div>
             <v-card v-if="activeType" title="Model Fields" class="elevation-0">
-                <v-row class="text-left">
+                <v-row no-gutters class="text-left">
                     <v-col v-for="(field, index) in modelFields" :key="index" cols="12" sm="4" md="4" lg="4">
-                        <v-text-field :label="field.field.name" v-model="fieldValues[index]"></v-text-field>
+                        <v-text-field class="ma-2" :label="field.field.name" v-model="fieldValues[index]"></v-text-field>
                     </v-col>
                 </v-row>
             </v-card>
