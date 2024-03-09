@@ -114,7 +114,7 @@ const changeType = async (clearModel) => {
         await changeCategory();
     }
 
-    response = await TypeServices.getAllFields(type.id);
+    response = await TypeServices.getAllItemFields(type.id);
     typeFields.value = response.data;
     console.log(typeFields.value);
 
