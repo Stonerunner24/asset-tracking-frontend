@@ -2,17 +2,19 @@
 import { ref, onMounted, computed } from "vue";
 import modelServices from "../services/modelServices";
 import categoryServices from "../services/categoryServices";
-import typeServices from "../services/typeServives";
+import typeServices from "../services/typeServices";
 import router from "../router";
 
 const categories = ref([]);
 const categoryNames = computed(() => categories.value.map(category => category.catName));
+const activeCat = ref();
 
 const types = ref([]);
 const typeNames = computed(() => types.value.map(type => type.typeName));
-
+const activeType = ref();
 
 async function getCategories() {
+    // This eventually needs to be altered to only fetch the categories the user is assigned to
     try {
         const response = await categoryServices.getAll();
         categories.value = response.data;
@@ -39,9 +41,32 @@ async function getTypesForCategory(categoryId) {
     }
 }
 
-async function changeCategory() {
-    // Check to see if a category is selected
-    // If category is null, set types to 
+async function changeCategory(clearType) {
+    
+    // 1: category is reset. Result: type is unfiltered
+    if (activeCat.value == null) {
+        await getAllTypes();
+        clearType = true;
+    }
+    // 2: category is changed. Result: type is filtered
+    else {
+        // Get active category id from categories list and update types
+        let catId = categories.value.find(cat => cat.catName === activeCat.value).id;
+        await getTypesForCategory(catId);
+    }
+    if (clearType) {
+        activeType.value = null;
+    }
+}
+
+async function changeType() {
+    // Get full active type object
+    let type = types.value.find(type => type.typeName === activeType.value);
+    // 1: Category is empty. Change category to category of type
+    if (activeCat.value == null) {
+        activeCat.value = categories.value.find(cat => cat.id === type.categoryId).catName;
+        await changeCategory(false);
+    }
 }
 
 onMounted(async () => {
@@ -54,10 +79,14 @@ onMounted(async () => {
     <div class="ma-15 mt-7">
         <!-- Page Title -->
         <div style="font-size: x-large;">Add Model</div> 
+        
         <!-- Category combobox. Needs to eventually restrict categories to only those assigned to user -->
-        <v-combobox clearable label="Category" :items="categoryNames"></v-combobox>
+        <!-- If only one category, do not show this box. Instead, show text. -->
+        <v-combobox clearable label="Category" v-model="activeCat" @update:modelValue="changeCategory" :items="categoryNames"></v-combobox>
+        
         <!-- Type combo box -->
-        <v-combobox clearable label="Type" :items="typeNames"></v-combobox>
+        <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType" :items="typeNames"></v-combobox>
+        
         <!-- Name text entry -->
         <v-text-field clearable label="Name"></v-text-field>
         
