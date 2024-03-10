@@ -60,6 +60,82 @@
                             readonly
                             v-model="building.yearBuilt"
                         ></v-text-field>
+                        <v-text-field
+                            label="Square Feet"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.sqFeet"
+                        ></v-text-field>
+                        <v-text-field
+                            label="value"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.value"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field
+                            label="# of Stories"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.numStories"
+                        ></v-text-field>
+                        <v-text-field
+                            label="Construction"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.construction"
+                        ></v-text-field>
+                        <v-text-field
+                            label="Fire/Smoke Notes"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.fireSmokeNotes"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field
+                            label="Has Fire Monitor"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.hasFireMonitor"
+                        ></v-text-field>
+                        <v-text-field
+                            label="Has Fire Alarm"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.hasFireAlarm"
+                        ></v-text-field>
+                        <v-text-field
+                            label="Has Elevator"
+                            color="blue"
+                            variant="underlined"
+                            style="width: 30%; 
+                            min-width: 10rem;"
+                            readonly
+                            v-model="building.hasElevator"
+                        ></v-text-field>
                     </v-col>
                 </v-row>
             </v-card>
