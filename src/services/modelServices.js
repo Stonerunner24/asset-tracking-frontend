@@ -13,6 +13,9 @@ export default {
   getAllFields(modelId){
     return apiClient.get(`/model/${modelId}/field`);
   },
+  bulkCreateFields(modelId, data){
+    return apiClient.post(`/model/${modelId}/field`)
+  },
   create(data) {
     return apiClient.post("/model", data);
   },
