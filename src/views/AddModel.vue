@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import modelServices from "../services/modelServices";
 import categoryServices from "../services/categoryServices";
 import typeServices from "../services/typeServices";
@@ -14,8 +14,20 @@ const typeNames = computed(() => types.value.map(type => type.typeName));
 const activeType = ref();
 
 const modelFields = ref([]);
-const fieldValues = ref(Array.from({ length: modelFields.value.length }, () => ''));
+const fieldValues = ref(['']);
 
+const modelName = ref('');
+
+watch(modelFields, (newModelFields) => {
+ fieldValues.value = Array.from({ length: newModelFields.length }, () => '');
+});
+
+// Computed property to check if all fields have values
+const allFieldsFilled = computed(() => {
+    const isFilled = fieldValues.value.every(value => value !== '') && !(modelName.value == '' || modelName.value == null);
+    console.log("field computed: ", isFilled, " modelName value: ", modelName.value);
+    return isFilled;
+});
 async function getCategories() {
     // This eventually needs to be altered to only fetch the categories the user is assigned to
     try {
@@ -87,6 +99,10 @@ async function changeType() {
     }
 }
 
+function saveModel() {
+    
+}
+
 onMounted(async () => {
     await getCategories();
     await getAllTypes();
@@ -106,17 +122,20 @@ onMounted(async () => {
         <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType" :items="typeNames"></v-combobox>
         
         <!-- Name text entry -->
-        <v-text-field clearable label="Name"></v-text-field>
+        <v-text-field clearable label="Name" v-model="modelName"></v-text-field>
         
         <!-- Model fields -->
         <div>
             <v-card v-if="activeType" title="Model Fields" class="elevation-0">
                 <v-row no-gutters class="text-left">
-                    <v-col v-for="(field, index) in modelFields" :key="index" cols="12" sm="4" md="4" lg="4">
-                        <v-text-field class="ma-2" :label="field.field.name" v-model="fieldValues[index]"></v-text-field>
+                    <v-col v-for="(field, index) in modelFields" :key="index" cols="12" sm="5" md="4" lg="4">
+                        <v-text-field class="ma-1" :label="field.field.name" v-model="fieldValues[index]"></v-text-field>
                     </v-col>
                 </v-row>
             </v-card>
         </div>
+        
+        <!-- Save Button -->
+        <v-btn color="blue" :disabled="!allFieldsFilled" @click="saveModel">Save</v-btn>
     </div>
 </template>
