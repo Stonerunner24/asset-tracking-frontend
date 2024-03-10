@@ -120,7 +120,7 @@ const router = createRouter({
           }
         },
         {
-          path: "/buildingview",
+          path: "/buildingview/:id",
           name: "buildingview",
           component: BuildingView,
           meta: {
