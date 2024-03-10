@@ -11,7 +11,7 @@ export default {
     return apiClient.get(`/model/type/${typeId}`);
   },
   getAllFields(modelId){
-    return apiClient.get(`/model/fields/${modelId}`);
+    return apiClient.get(`/model/${modelId}/field`);
   },
   create(data) {
     return apiClient.post("/model", data);

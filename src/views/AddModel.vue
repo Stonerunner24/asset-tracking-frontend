@@ -19,7 +19,7 @@ const fieldValues = ref(['']);
 const modelName = ref('');
 
 watch(modelFields, (newModelFields) => {
- fieldValues.value = Array.from({ length: newModelFields.length }, () => '');
+    fieldValues.value = Array.from({ length: newModelFields.length }, () => '');
 });
 
 // Computed property to check if all fields have values
@@ -38,7 +38,7 @@ async function getCategories() {
     }
 }
 
-async function getAllTypes(){
+async function getAllTypes() {
     try {
         const response = await typeServices.getAll();
         types.value = response.data;
@@ -69,7 +69,7 @@ async function getFieldsForType(typeId) {
 }
 
 async function changeCategory(clearType) {
-    
+
     // 1: category is reset. Result: type is unfiltered
     if (activeCat.value == null) {
         await getAllTypes();
@@ -99,7 +99,15 @@ async function changeType() {
     }
 }
 
+const clearFields = () => {
+    //had to use a classic for loop here because the fancy ones weren't doing what I wanted them to.
+    for (let x = 0; x < fieldValues.value.length; x++) {
+        fieldValues.value[x] = '';
+    }
+};
+
 function saveModel() {
+    // Compose object for passing
     
 }
 
@@ -109,33 +117,48 @@ onMounted(async () => {
 });
 
 </script>
+
 <template>
     <div class="ma-15 mt-7">
         <!-- Page Title -->
-        <div style="font-size: x-large;">Add Model</div> 
-        
+        <div style="font-size: x-large;">Add Model</div>
+
         <!-- Category combobox. Needs to eventually restrict categories to only those assigned to user -->
         <!-- If only one category, do not show this box. Instead, show text. -->
-        <v-combobox clearable label="Category" v-model="activeCat" @update:modelValue="changeCategory" :items="categoryNames"></v-combobox>
-        
+        <v-combobox clearable label="Category" v-model="activeCat" @update:modelValue="changeCategory"
+            :items="categoryNames"></v-combobox>
+
         <!-- Type combo box -->
-        <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType" :items="typeNames"></v-combobox>
-        
+        <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType"
+            :items="typeNames"></v-combobox>
+
         <!-- Name text entry -->
         <v-text-field clearable label="Name" v-model="modelName"></v-text-field>
-        
+
         <!-- Model fields -->
         <div>
             <v-card v-if="activeType" title="Model Fields" class="elevation-0">
                 <v-row no-gutters class="text-left">
                     <v-col v-for="(field, index) in modelFields" :key="index" cols="12" sm="5" md="4" lg="4">
-                        <v-text-field class="ma-1" :label="field.field.name" v-model="fieldValues[index]"></v-text-field>
+                        <v-text-field class="ma-1" :label="field.field.name"
+                            v-model="fieldValues[index]"></v-text-field>
                     </v-col>
                 </v-row>
             </v-card>
         </div>
-        
-        <!-- Save Button -->
-        <v-btn color="blue" :disabled="!allFieldsFilled" @click="saveModel">Save</v-btn>
+
+        <!-- Buttons -->
+        <div class="ml-12 mr-12">
+            <v-row>
+                <v-col class="text-right">
+                    <v-btn color="darkgray" class="ma-2" @click="clearFields">
+                        Clear fields
+                    </v-btn>
+                    <v-btn color="blue" :disabled="!allFieldsFilled" @click="saveModel">
+                        Save
+                    </v-btn>
+                </v-col>
+            </v-row>
+        </div>
     </div>
 </template>
