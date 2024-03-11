@@ -13,6 +13,8 @@ import ModelLookup from "./views/ModelLookup.vue";
 import ViewModel from "./views/ViewModel.vue";
 import AddModel from "./views/AddModel.vue";
 
+import BuildingLookup from "./views/BuildingLookup.vue";
+import BuildingView from "./views/BuildingView.vue"
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
@@ -103,7 +105,9 @@ const router = createRouter({
         {
           path: "/modellookup",
           name: "modellookup",
-          component: ModelLookup,          
+
+          component: ModelLookup,
+
           meta: {
             qlname: "Model Lookup",
             qlviewable: true,
@@ -126,6 +130,25 @@ const router = createRouter({
         },
       ]
     }   
+          path: "/buildinglookup",
+          name: "buildinglookup",
+          component: BuildingLookup,
+          meta: {
+            qlname: "Building Lookup",
+            qlviewable: true,
+          }
+        },
+        {
+          path: "/buildingview/:id",
+          name: "buildingview",
+          component: BuildingView,
+          meta: {
+            qlname: "Building View",
+            qlviewable: false,
+          }
+        },
+      ]
+    } 
   ],
 });
 
