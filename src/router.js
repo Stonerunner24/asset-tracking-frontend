@@ -108,7 +108,15 @@ const router = createRouter({
             qlname: "Model Lookup",
             qlviewable: true,
           }
-        },
+        },{
+          path: "/addtype",
+          name: "addtype",
+          component: AddType,
+          meta:{
+            qlname: "Add type",
+            qlviewable: true,
+          }
+        }
       ]
     }
     

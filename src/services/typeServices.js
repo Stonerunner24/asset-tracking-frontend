@@ -24,5 +24,12 @@ export default {
   },
   getAllFields(id){
     return apiClient.get(`/type/${id}/typefield`);
+  },
+  getAllTypeFields(id){
+    return apiClient.get(`/type/${id}/typefield`);
+  },
+  createTypeFields(id, data){
+    return apiClient.post(`/type/${id}/typefield`, data);
   }
+
 };
