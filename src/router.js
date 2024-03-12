@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // import pages
+// import pages
 import Login from "./views/Login.vue";
 import Homepage from "./views/Homepage.vue";
 import ItemLookup from "./views/ItemLookup.vue";
 import ItemView from "./views/ItemView.vue";
 import ItemAdd from "./views/ItemAdd.vue";
-import TypeView from "./views/TypeView.vue"
+import TypeView from "./views/TypeView.vue";
+import AddType from "./views/AddType.vue";
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 import ModelLookup from "./views/ModelLookup.vue";
