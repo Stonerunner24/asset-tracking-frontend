@@ -12,7 +12,11 @@ import AddType from "./views/AddType.vue";
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 import ModelLookup from "./views/ModelLookup.vue";
+import ViewModel from "./views/ViewModel.vue";
+import AddModel from "./views/AddModel.vue";
 
+import BuildingLookup from "./views/BuildingLookup.vue";
+import BuildingView from "./views/BuildingView.vue"
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
@@ -103,12 +107,14 @@ const router = createRouter({
         {
           path: "/modellookup",
           name: "modellookup",
-          component: ModelLookup,          
+          component: ModelLookup,
           meta: {
             qlname: "Model Lookup",
             qlviewable: true,
           }
-        },{
+
+        },
+        {
           path: "/addtype",
           name: "addtype",
           component: AddType,
@@ -117,9 +123,42 @@ const router = createRouter({
             qlviewable: true,
           }
         }
+        },
+        {
+          path: "/viewModel/:id",
+          name: "viewModel",
+          component: ViewModel,
+          meta: {
+            qlname: "Model View",
+            qlviewable: false,
+          }
+        },
+        {
+          path: "/addModel/",
+          name: "addModel",
+          component: AddModel,
+          props: true,
+        },
+        {   
+          path: "/buildinglookup",
+          name: "buildinglookup",
+          component: BuildingLookup,
+          meta: {
+            qlname: "Building Lookup",
+            qlviewable: true,
+          }
+        },
+        {
+          path: "/buildingview/:id",
+          name: "buildingview",
+          component: BuildingView,
+          meta: {
+            qlname: "Building View",
+            qlviewable: false,
+          }
+        },
       ]
-    }
-    
+    } 
   ],
 });
 

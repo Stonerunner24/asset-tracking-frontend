@@ -16,7 +16,7 @@ function goToCheckOut(){
     router.push("/")
 }
 function goToModelLookup(){
-    router.push("viewModel")
+    router.push("modellookup")
 }
 
 </script>
