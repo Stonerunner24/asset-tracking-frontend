@@ -12,7 +12,7 @@ import ViewCategories from "./views/ViewCategories.vue";
 import ModelLookup from "./views/ModelLookup.vue";
 import ViewModel from "./views/ViewModel.vue";
 import AddModel from "./views/AddModel.vue";
-
+import TypeLookup from "./views/TypeLookup.vue";
 import BuildingLookup from "./views/BuildingLookup.vue";
 import BuildingView from "./views/BuildingView.vue"
 
@@ -142,6 +142,15 @@ const router = createRouter({
           meta: {
             qlname: "Building View",
             qlviewable: false,
+          }
+        },
+        {
+          path: "/typelookup",
+          name: "typelookup",
+          component: TypeLookup,
+          meta: {
+            qlname: "Types Lookup",
+            qlviewable: true,
           }
         },
       ]
