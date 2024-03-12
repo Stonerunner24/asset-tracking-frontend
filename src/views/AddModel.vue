@@ -25,7 +25,6 @@ watch(modelFields, (newModelFields) => {
 // Computed property to check if all fields have values
 const allFieldsFilled = computed(() => {
     const isFilled = fieldValues.value.every(value => value !== '') && !(modelName.value == '' || modelName.value == null);
-    console.log("field computed: ", isFilled, " modelName value: ", modelName.value);
     return isFilled;
 });
 async function getCategories() {
@@ -100,15 +99,59 @@ async function changeType() {
 }
 
 const clearFields = () => {
-    //had to use a classic for loop here because the fancy ones weren't doing what I wanted them to.
     for (let x = 0; x < fieldValues.value.length; x++) {
         fieldValues.value[x] = '';
     }
 };
 
-function saveModel() {
-    // Compose object for passing
-    
+function clearAll() {
+    clearFields();
+    activeCat.value = null;
+    modelName.value = '';
+    changeCategory();
+}
+
+async function saveModel() {
+    // Create model
+    const modelData = {
+        model: modelName.value,
+        typeId: types.value.find(type => type.typeName === activeType.value).id,
+    }
+    try {
+        var modelId = (await modelServices.create(modelData)).data.id;
+        console.log("Model created", modelId);
+        await saveModelFields(modelId);
+        clearAll();
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+async function saveModelFields(modelId) {
+    // Map arrays
+    const fieldIds = modelFields.value.map(modelField => modelField.fieldId);
+
+    if (fieldIds.length !== fieldValues.value.length) {
+        console.log("FieldId array: ", fieldIds);
+        console.log("FieldValue array: ", fieldValues);
+        throw new Error("FieldId and FieldValues lengths do not match.");
+    }
+
+    // Create request data
+    const data = {
+        fieldId: fieldIds,
+        value: fieldValues.value
+    }
+
+    console.log("Data:", data);
+
+    try {
+        await modelServices.bulkCreateFields(modelId, data);
+        console.log("ModelFields created");
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
 }
 
 onMounted(async () => {
@@ -120,21 +163,33 @@ onMounted(async () => {
 
 <template>
     <div class="ma-15 mt-7">
-        <!-- Page Title -->
-        <div style="font-size: x-large;">Add Model</div>
+        <!-- Page Title and Save Button -->
+        <div class="d-flex justify-space-between align-center">
+            <div style="font-size: x-large;">Add Model</div>
+            <v-btn color="blue" :disabled="!allFieldsFilled" @click="saveModel">
+                Save
+            </v-btn>
+        </div>
 
-        <!-- Category combobox. Needs to eventually restrict categories to only those assigned to user -->
-        <!-- If only one category, do not show this box. Instead, show text. -->
-        <v-combobox clearable label="Category" v-model="activeCat" @update:modelValue="changeCategory"
-            :items="categoryNames"></v-combobox>
-
-        <!-- Type combo box -->
-        <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType"
-            :items="typeNames"></v-combobox>
-
-        <!-- Name text entry -->
-        <v-text-field clearable label="Name" v-model="modelName"></v-text-field>
-
+        <!-- Comboboxes and Text Field -->
+        <v-row no-gutters>
+            <v-col cols="12" sm="6" md="4">
+                <!-- Category combobox -->
+                <v-combobox clearable label="Category" v-model="activeCat" @update:modelValue="changeCategory"
+                    :items="categoryNames" style="width: 100%;"></v-combobox>
+            </v-col>
+        </v-row><v-row no-gutters>
+            <v-col cols="12" sm="6" md="4">
+                <!-- Type combobox -->
+                <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType"
+                    :items="typeNames" style="width: 100%;"></v-combobox>
+            </v-col>
+        </v-row><v-row no-gutters>
+            <v-col cols="12" sm="6" md="4">
+                <!-- Name text field -->
+                <v-text-field clearable label="Name" v-model="modelName" style="width: 100%;"></v-text-field>
+            </v-col>
+        </v-row>
         <!-- Model fields -->
         <div>
             <v-card v-if="activeType" title="Model Fields" class="elevation-0">
