@@ -78,7 +78,6 @@
     });
 </script>
 <template>
-    <div>{{ assignments }}</div>
     <div class="ma-15 mt-7">
         <div style="font-size: x-large;">View Building</div>
 
