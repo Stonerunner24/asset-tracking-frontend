@@ -8,6 +8,7 @@
     const search = ref('');
     const tab = ref("active");
     const hideBtn = ref("deactivate")
+    const catNames = ref([]);
 
     const headers = ref([
         { title: 'Name', value: "typeName" },
@@ -19,6 +20,7 @@
         try {
             const response = await TypeServices.getAll();
             types.value = response.data;
+            await getCategoryName();
         } catch (error) {
             console.log("Error fetching types:", error);
         }
@@ -43,14 +45,15 @@
         }
     }
 
-    async function getCategoryName(type) {
-            try {
-                const categoryName = (await CategoryServices.get(type.categoryId)).catName;
-                return categoryName;
-            } catch (error) {
-                console.error("Error fetching category name:", error);
-                return "Unknown";
+    async function getCategoryName() {
+        try {
+            for (let i = 0; i < filteredTypes.value.length; i++){
+                const response = await CategoryServices.get(filteredTypes.value[i].categoryId);
+                catNames.value.push(response.data.catName);
             }
+        } catch (error) {
+            console.error("Error fetching category name:", error);
+        }
     };
     
     function viewType(type){
@@ -95,10 +98,10 @@
             hide-details
         ></v-text-field>
         <v-data-table :items="currentTypes" class="display" :headers="headers">
-        <template v-slot:item="{ item }">
+        <template v-slot:item="{ item, index }">
           <tr>
             <td>{{ item.typeName }}</td>
-            <td>{{ getCategoryName(type) }}</td>
+            <td>{{ catNames[index] }}</td>
             <td class="text-right">
                 <!-- View button -->
                 <v-btn elevation="1" size="small" color="blue" @click="viewType(item)" class="mr-10">View</v-btn>
