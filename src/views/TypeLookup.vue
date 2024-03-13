@@ -2,6 +2,7 @@
     import { ref, onMounted, computed } from "vue";
     import router from "../router";
     import TypeServices from "../services/typeServices";
+    import CategoryServices from "../services/categoryServices";
 
     const types = ref([]);
     const search = ref('');
@@ -10,6 +11,7 @@
 
     const headers = ref([
         { title: 'Name', value: "typeName" },
+        { title: 'Category',},
         { title: 'Action', align: "end"}
     ]);
     
@@ -41,6 +43,16 @@
         }
     }
 
+    async function getCategoryName(type) {
+            try {
+                const categoryName = (await CategoryServices.get(type.categoryId)).catName;
+                return categoryName;
+            } catch (error) {
+                console.error("Error fetching category name:", error);
+                return "Unknown";
+            }
+    };
+    
     function viewType(type){
         router.push(`/typeview/${type.id}`);
     }
@@ -86,6 +98,7 @@
         <template v-slot:item="{ item }">
           <tr>
             <td>{{ item.typeName }}</td>
+            <td>{{ getCategoryName(type) }}</td>
             <td class="text-right">
                 <!-- View button -->
                 <v-btn elevation="1" size="small" color="blue" @click="viewType(item)" class="mr-10">View</v-btn>
