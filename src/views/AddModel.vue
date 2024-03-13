@@ -173,19 +173,19 @@ onMounted(async () => {
 
         <!-- Comboboxes and Text Field -->
         <v-row no-gutters>
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="5" md="4" lg="3">
                 <!-- Category combobox -->
                 <v-combobox clearable label="Category" v-model="activeCat" @update:modelValue="changeCategory"
                     :items="categoryNames" style="width: 100%;"></v-combobox>
             </v-col>
         </v-row><v-row no-gutters>
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="5" md="4" lg="3">
                 <!-- Type combobox -->
                 <v-combobox clearable label="Type" v-model="activeType" @update:modelValue="changeType"
                     :items="typeNames" style="width: 100%;"></v-combobox>
             </v-col>
         </v-row><v-row no-gutters>
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="5" md="4" lg="3">
                 <!-- Name text field -->
                 <v-text-field clearable label="Name" v-model="modelName" style="width: 100%;"></v-text-field>
             </v-col>
@@ -194,7 +194,7 @@ onMounted(async () => {
         <div>
             <v-card v-if="activeType" title="Model Fields" class="elevation-0">
                 <v-row no-gutters class="text-left">
-                    <v-col v-for="(field, index) in modelFields" :key="index" cols="12" sm="5" md="4" lg="4">
+                    <v-col v-for="(field, index) in modelFields" :key="index" cols="12" sm="5" md="4" lg="3">
                         <v-text-field class="ma-1" :label="field.field.name"
                             v-model="fieldValues[index]"></v-text-field>
                     </v-col>
