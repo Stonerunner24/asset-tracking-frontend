@@ -90,7 +90,7 @@ const viewModel = (modelId) => {
 
 const addModel = () => {
     console.log('Navigating to add model page');
-    //router.push
+    router.push(({name: 'addModel'}));
 }
 
 
