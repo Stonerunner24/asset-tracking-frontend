@@ -51,18 +51,6 @@
         catch(err){
             console.error(err);
         }
-        // await categorySerices.getAll()
-        // .then((response)=>{
-        //     console.log("Category List");
-        //     console.log(response.data);
-        //     categories.value = response.data;
-        //     catNames.value = categories.value.data.map(category => category.catName);
-        //     console.log(catNames.value);
-            
-        // })
-        // .catch((e)=>{
-        //     console.log(e.response);
-        // })
     };
 
     const getCatId = () =>{
@@ -70,15 +58,12 @@
         return catId;
     }
 
-
-    //takes the selected item and models and returns an array of their respective fieldIds. 
     const getFieldIds = () =>{
      
         let fieldIds = [];
         
        
         selectedItemId.value.forEach(function(data){
-            //console.log(data);
             let d = data;
             fields.value.data.forEach(function(fieldData){
                 if(d === fieldData.name){
@@ -171,17 +156,13 @@
         .catch(error=>{
             console.error(error);
         })
-
-
-
-        
     }
 
 </script>
 
 <template>
-    <Sidebar></Sidebar>
     <div class = "ma-15 mt-7">
+        <div style="font-size: x-large;">Add New Type</div>
         <v-form>
             <div>
                 <v-row align-self="end">

@@ -122,7 +122,6 @@ const router = createRouter({
             qlname: "Add type",
             qlviewable: true,
           }
-        }
         },
         {
           path: "/viewModel/:id",
@@ -159,7 +158,7 @@ const router = createRouter({
         },
       ]
     } 
-  ],
+  ]
 });
 
 export default router;
