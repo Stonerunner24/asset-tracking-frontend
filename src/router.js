@@ -17,6 +17,7 @@ import AddModel from "./views/AddModel.vue";
 
 import BuildingLookup from "./views/BuildingLookup.vue";
 import BuildingView from "./views/BuildingView.vue"
+import RoomView from "./views/RoomView.vue";
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
@@ -153,6 +154,15 @@ const router = createRouter({
           component: BuildingView,
           meta: {
             qlname: "Building View",
+            qlviewable: false,
+          }
+        },
+        {
+          path: "/roomview/:id",
+          name: "roomview",
+          component: RoomView,
+          meta: {
+            qlname: "Room View",
             qlviewable: false,
           }
         },
