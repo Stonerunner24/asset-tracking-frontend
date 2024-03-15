@@ -1,9 +1,14 @@
 <script setup>
-  import { ref } from 'vue';
+    import { ref } from 'vue';
 
-    const startDate = ref('');
+    const startDate = ref(currentDate());
     const endDate = ref('');
     const temp = ref(false);
+
+    function currentDate() {
+        var formatted_date = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+        return formatted_date + "";
+    }
 
 </script>
 <template>
@@ -20,7 +25,12 @@
                         v-model="startDate"
                     ></v-text-field>
                 </v-col>
-                <v-col></v-col>
+                <v-col>
+                    <v-icon 
+                        size="xx-large" 
+                        class="hover-primary"
+                    >mdi-calendar</v-icon>
+                </v-col>
                 <v-col class="text-right">
                     <v-btn color="blue" flat>Check Out</v-btn>
                 </v-col>
@@ -50,3 +60,8 @@
         </div>
     </div>
 </template>
+<style scoped>
+    .hover-primary:hover {
+        color: #1976D2;
+    }
+</style>
