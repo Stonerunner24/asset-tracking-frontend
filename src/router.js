@@ -10,7 +10,7 @@ import TypeView from "./views/TypeView.vue"
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 import ModelLookup from "./views/ModelLookup.vue";
-
+import CheckOut from "./views/CheckOut.vue";
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
@@ -104,6 +104,15 @@ const router = createRouter({
           component: ModelLookup,          
           meta: {
             qlname: "Model Lookup",
+            qlviewable: true,
+          }
+        },
+        {
+          path: "/checkout",
+          name: "checkout",
+          component: CheckOut,
+          meta: {
+            qlname: "Check Out Item",
             qlviewable: true,
           }
         },
