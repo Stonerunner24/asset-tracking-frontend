@@ -17,7 +17,10 @@ onMounted(async()=>{
 const retrieveViewData = async(route) => {
     try{
         const response = await typeServices.get(route.params.id);
-        
+
+    }
+    catch(err){
+        console.log(err.message);
     }
 }
 
