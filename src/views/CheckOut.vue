@@ -1,5 +1,9 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
+    import CategoryServices from '../services/categoryServices';
+    import TypeServices from '../services/typeServices';
+    import ModelServices from '../services/modelServices';
+    import ItemServices from '../services/itemServices';
 
     const startDatePicker = ref(null);
     const endDatePicker = ref(null);
@@ -8,6 +12,16 @@
     const temp = ref(false);
     const startDateBoole = ref(false);
     const endDateBoole = ref(false);
+
+    const category = ref({});
+    const type = ref({});
+    const model = ref({});
+    const item = ref({});
+
+    const categories = ref([]);
+    const types = ref([]);
+    const models = ref([]);
+    const itemList = ref([]);
 
     function startDisplayDate() {
         if (startDatePicker.value == null) {
@@ -47,10 +61,52 @@
     function isStartBeforeEnd(){
         return (startDatePicker.value <= endDatePicker.value) ? true : false;
     }
+
+    async function getCategories() {
+        try {
+            const response = await CategoryServices.getAll();
+            categories.value = response.data;
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+        }
+    }
+    async function getTypes() {
+        try {
+            const response = await TypeServices.getAll();
+            types.value = response.data;
+        } catch (error) {
+            console.error("Error fetching types:", error);
+        }
+    }
+    async function getModels() {
+        try {
+            const response = await ModelServices.getAll();
+            models.value = response.data;
+        } catch (error) {
+            console.error("Error fetching models:", error);
+        }
+    }
+    async function getItems() {
+        try{
+            const response = await ItemServices.getAll();
+            itemList.value = response.data;
+        }
+        catch(err){
+            console.error(err);
+        }
+    }
+
+    onMounted(async () => {
+        await getCategories();
+        await getTypes();
+        await getModels();
+        await getItems();
+    })
 </script>
 
 <template>
     <div class="ma-15 mt-7">
+        <div>{{ category }}</div>
         <v-row>
             <v-col><div style="font-size: x-large;">Check Out</div></v-col>
             <v-col></v-col>
@@ -59,19 +115,21 @@
         <div class="mt-7">
             <v-row>
                 <v-col class="text-left">
+                    <div>
                     <v-text-field
                         variant="underlined"
                         color="blue"
                         label="Start Date"
                         placeholder="dd/MM/yyyy"
                         v-model="startDate"
+                        style="display: inline-block; min-width: 50%; width: 75%;"
+                        class="pr-3"
                     ></v-text-field>
-                </v-col>
-                <v-col>
                     <v-icon 
                         size="xx-large" 
-                        class="hover-primary"
+                        class="hover-primary mt-n15"
                         @click="startDateBoole = !startDateBoole"
+                        style="display: inline-block;"
                     >mdi-calendar</v-icon>
                     <v-overlay v-model="startDateBoole" class="align-center justify-center" contained>
                         <v-container v-if="startDateBoole" class="datePickerDialog">
@@ -80,6 +138,7 @@
                             </v-row>
                         </v-container>
                     </v-overlay> 
+                    </div>
                 </v-col>
                 <v-col></v-col>
             </v-row>
@@ -91,21 +150,21 @@
                         v-model="temp"
                         label="Permanant Loan"
                     ></v-checkbox>
+                    <div v-if="!temp">
                     <v-text-field
-                        class="mt-n10"
+                        class="mt-n10 pr-3"
                         variant="underlined"
-                        v-if="!temp"
                         color="blue"
                         label="End Date"
                         placeholder="dd/MM/yyyy"
                         v-model="endDate"
+                        style="display: inline-block; min-width: 50%; width: 75%;"
                     ></v-text-field>
-                </v-col>
-                <v-col v-if="!temp">
                     <v-icon 
                         size="xx-large" 
-                        class="hover-primary"
+                        class="hover-primary mt-n15"
                         @click="endDateBoole = !endDateBoole"
+                        style="display: inline-block;"
                     >mdi-calendar</v-icon>
                     <v-overlay v-model="endDateBoole" class="align-center justify-center" contained>
                         <v-container v-if="endDateBoole" class="datePickerDialog">
@@ -114,6 +173,24 @@
                             </v-row>
                         </v-container>
                     </v-overlay> 
+                    </div>
+                </v-col>
+                <v-col></v-col>
+            </v-row>
+        </div>
+
+        <div>
+            <v-row>
+                <v-col>
+                    <v-card flat color="gray" class="pa-5" style="width:80%">
+                        <div>Item</div>
+                        <div style="width: 100%;">
+                            <v-combobox color="blue" label="Category" placeholder="Category Name" v-bind="category" :items="categories" item-title="catName"></v-combobox>
+                            <v-combobox color="blue" label="Type" placeholder="Type Name" v-bind="type" :items="types" item-title="typeName"></v-combobox>
+                            <v-combobox color="blue" label="Model" placeholder="Model Name" v-bind="model" :items="models" item-title="model"></v-combobox>
+                            <v-combobox color="blue" label="Serial Number" placeholder="Item Serial Number" v-bind="item" :items="itemList" item-title="serialNum"></v-combobox>
+                        </div>
+                    </v-card>
                 </v-col>
                 <v-col></v-col>
             </v-row>
