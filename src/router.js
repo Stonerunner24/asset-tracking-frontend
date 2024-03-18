@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // import pages
+// import pages
 import Login from "./views/Login.vue";
 import Homepage from "./views/Homepage.vue";
 import ItemLookup from "./views/ItemLookup.vue";
 import ItemView from "./views/ItemView.vue";
 import ItemAdd from "./views/ItemAdd.vue";
-import TypeView from "./views/TypeView.vue"
+import TypeView from "./views/TypeView.vue";
+import AddType from "./views/AddType.vue";
 import ViewCategory from "./views/ViewCategory.vue";
 import ViewCategories from "./views/ViewCategories.vue";
 import ModelLookup from "./views/ModelLookup.vue";
@@ -15,6 +17,7 @@ import AddModel from "./views/AddModel.vue";
 import TypeLookup from "./views/TypeLookup.vue";
 import BuildingLookup from "./views/BuildingLookup.vue";
 import BuildingView from "./views/BuildingView.vue"
+import RoomView from "./views/RoomView.vue";
 
 // import layouts
 import StandardLayout from "./layouts/StandardLayout.vue";
@@ -110,6 +113,16 @@ const router = createRouter({
             qlname: "Model Lookup",
             qlviewable: true,
           }
+
+        },
+        {
+          path: "/addtype",
+          name: "addtype",
+          component: AddType,
+          meta:{
+            qlname: "Add type",
+            qlviewable: true,
+          }
         },
         {
           path: "/viewModel/:id",
@@ -153,9 +166,18 @@ const router = createRouter({
             qlviewable: true,
           }
         },
+        {
+          path: "/roomview/:id",
+          name: "roomview",
+          component: RoomView,
+          meta: {
+            qlname: "Room View",
+            qlviewable: false,
+          }
+        },
       ]
     } 
-  ],
+  ]
 });
 
 export default router;

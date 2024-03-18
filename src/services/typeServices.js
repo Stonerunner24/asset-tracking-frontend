@@ -22,10 +22,22 @@ export default {
   deleteAll() {
     return apiClient.delete(`/type`);
   },
+
+  getAllFields(id){
+    return apiClient.get(`/type/${id}/typefield`);
+  },
+  getAllTypeFields(id){
+    return apiClient.get(`/type/${id}/typefield`);
+  },
+  createTypeFields(id, data){
+    return apiClient.post(`/type/${id}/typefield`, data);
+  },
   getAllItemFields(id){
     return apiClient.get(`/type/${id}/typefield/item`);
   },
   getAllModelFields(id){
     return apiClient.get(`/type/${id}/typefield/model`);
+
   }
+
 };

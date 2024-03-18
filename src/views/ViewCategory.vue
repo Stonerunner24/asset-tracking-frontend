@@ -13,8 +13,8 @@
     const activeBox = ref(null);
 
     const headers = ref([
-    { title: 'Type Name', value: "typeName" },
-  ])
+        { title: 'Type Name', value: "typeName" },
+    ])
 
     async function getCategory() {
         try {

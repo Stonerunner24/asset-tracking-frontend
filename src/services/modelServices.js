@@ -11,7 +11,10 @@ export default {
     return apiClient.get(`/model/type/${typeId}`);
   },
   getAllFields(modelId){
-    return apiClient.get(`/model/fields/${modelId}`);
+    return apiClient.get(`/model/${modelId}/field`);
+  },
+  bulkCreateFields(modelId, data){
+    return apiClient.post(`/model/${modelId}/field`, data);
   },
   create(data) {
     return apiClient.post("/model", data);
