@@ -12,9 +12,9 @@
     const modelFields = ref({});
     const itemFields = ref({});
     const typeFields = ref({});
-    const repairs = ref({});
+    const repairs = ref([]);
     const repairSchedule = ref();
-    const assignments = ref({});
+    const assignments = ref([]);
     const itemInfos = ref({});
 
     const editMode = ref(false);
@@ -74,6 +74,21 @@
         catch(err){
             console.error(err.message);
         }
+    };
+
+    const findAssignee = (assignment) => {
+        console.log(assignment);
+        if(assignment.person){
+            return assignment.person.fName + ' ' + assignment.person.lName;
+        }
+        else if(assignment.building){
+            return assignment.building.buildingName;
+        }
+        else return assignment.room.building.buildingTag + ' ' + assignment.room.roomNum;
+    };
+
+    const viewRepair = (repairId) => {
+        //TODO: NAVIGATE TO VIEW REPAIR PAGE
     };
 
 </script>
@@ -269,10 +284,19 @@
                     :headers="[
                         {title: 'Checked Out'},
                         {title: 'Checked In'},
-                        {title: 'Person'},
+                        {title: 'Assignee'},
                         {title: 'Status'}
                     ]"
+                    :items="assignments"
                 >
+                    <template v-slot:item="{item}">
+                        <tr>
+                            <td>{{ item.startDate }}</td>
+                            <td>{{ item.endDate}}</td>
+                            <td>{{ findAssignee(item) }}</td>
+                            <td>{{ item.status }}</td>
+                        </tr>
+                    </template>
                 </v-data-table>
                 <v-data-table v-else-if="tab === 'Repairs'"
                     :headers="[
@@ -281,15 +305,32 @@
                         {title: 'Worker'},
                         {title: 'Action'}
                     ]"
+                    :items="repairs"
                 >
+                    <template v-slot:item="{item}">
+                        <tr>
+                            <td>{{ item.date }}</td>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.person.fName + ' ' + item.person.lName }}</td>
+                            <td>
+                                <v-btn elevation="1" size="small" color="blue" @click="viewRepair(item.id)" >View</v-btn>
+                            </td>
+                        </tr>
+                    </template>
                 </v-data-table>
                 <v-data-table v-else-if="tab === 'Notes'"
                     :headers="[
-                        {title: 'Title'},
                         {title: 'Information'},
                     ]"
+                    :items="itemInfos"
                 >
+                    <template v-slot:item="{item}">
+                        <tr>
+                            <td>{{ item.information }}</td>
+                        </tr>
+                    </template>
                 </v-data-table>
+                <v-btn elevation="0" size="large" color="blue" v-if="tab === 'Notes'">Add Note</v-btn>
             </v-card>
         </v-card>
 
