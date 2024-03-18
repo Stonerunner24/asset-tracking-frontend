@@ -1,8 +1,10 @@
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, computed } from 'vue';
     import { useRoute } from 'vue-router';
+    import {format, addMonth} from "@formkit/tempo";
     import ItemServices from '../services/itemServices';
 
+    //Reference Variables
     const item = ref({});
     const model = ref({});
     const type = ref({});
@@ -11,11 +13,37 @@
     const itemFields = ref({});
     const typeFields = ref({});
     const repairs = ref({});
+    const repairSchedule = ref();
     const assignments = ref({});
     const itemInfos = ref({});
 
-    const tab = ref('History');
+    const editMode = ref(false);
 
+    //Computed Variables
+    const hasWarranty = computed(() => {
+        return item.value.warrantyEnd != null ? true : false;
+    });
+    const warrantyStatus = computed(() => {
+        let warranty = new Date(item.value.warrantyEnd);
+        let curDate = new Date();
+        return warranty > curDate ? 'Under Warranty' : 'Past Warranty';
+    });
+    const hasMaintenance = computed(() => {
+        return item.value.repairSchedule != null ? true : false;
+    });
+    const lastRepair = computed(() => {
+        return repairs.value[repairs.value.length - 1].date;
+    });
+    const nextRepair = computed(() => {
+        let date = new Date(lastRepair.value);
+        return format(addMonth(date, item.value.repairSchedule, true), 'short');
+    });
+
+    //Hardcoded variables
+    const repairTimes = ['6 Months', '12 Months', '18 Months', '24 Months']
+    const tab = ref('History');
+    
+    //Functions
     onMounted(async() => {
         const route = useRoute();
         await retrieveItemData(route);
@@ -24,8 +52,10 @@
     const retrieveItemData = async(route) => {
         try{
             const response = await ItemServices.getOne(route.params.id);
-            console.log(response.data.item);
             item.value = response.data.item;
+            repairSchedule.value = item.value.repairSchedule + ' Months'
+            item.value.warrantyEnd = format(item.value.warrantyEnd, "short");
+            console.log(item.value);
             model.value = response.data.model;
             type.value = response.data.type;
             category.value = response.data.category;
@@ -33,12 +63,16 @@
             itemFields.value = response.data.itemFields;
             typeFields.value = response.data.typeFields;
             repairs.value = response.data.repair;
+            for (let repair of repairs.value){
+                repair.date = format(repair.date, "short");
+            }
+            console.log(repairs.value);
             assignments.value = response.data.assignment;
             itemInfos.value = response.data.itemInfo;
-            console.log(type);
+            console.log(item.value);
         }
         catch(err){
-            console.log(err.message);
+            console.error(err.message);
         }
     };
 
@@ -49,7 +83,16 @@
     </div>
     <div class="ml-12 mr-12">
         <v-row >
-            <v-col class="text-left">
+            <v-col cols="12" sm="12" md="4" lg="3">
+                <v-combobox
+                    chips
+                    label="Category"
+                    disabled=true
+                    v-model="category.catName"
+                ></v-combobox>
+                <!-- FILTER OFF CATEGORY -->
+            </v-col>
+            <v-col class="text-left" cols="12" sm="12" md="4" lg="3">
                 <v-combobox
                     chips
                     label="Type"
@@ -59,17 +102,8 @@
                 <!-- FILTER OFF TYPE -->
             </v-col>
             <v-col>
-                <v-combobox
-                    chips
-                    label="Category"
-                    disabled=true
-                    v-model="category.catName"
-                ></v-combobox>
-                <!-- FILTER OFF CATEGORY -->
             </v-col>
-            <v-col>
-            </v-col>
-            <v-col class="text-right">
+            <v-col class="text-right pb-8">
                 <v-btn
                     class=""
                     color="blue"
@@ -89,7 +123,7 @@
             <v-row class="mr-1 ml-1">
                 <v-col
                     v-for="m in modelFields"
-                    cols="3"
+                    cols="12" sm="12" md="4" lg="3"
                 >
                     <v-combobox
                         :label="m.field.name"
@@ -102,19 +136,113 @@
     </div>
     <div class="mr-12 ml-12 mt-8">
         <v-card
-            title="Item Fields"
+            title="Item Data"
             class="elevation-0 pb-4"
         >
+            <v-row 
+                class="mr-1 ml-1">
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Serial Number"
+                        v-model="item.serialNum"
+                        :disabled="!editMode"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Purchase Price"
+                        v-model="item.initialValue"
+                        :disabled="!editMode"
+                    >
+
+                    </v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Status"
+                        v-model="item.status"
+                        disabled="true"
+                    >
+                    </v-text-field>
+                </v-col>
+               
+            </v-row>
             <v-row class="mr-1 ml-1">
                 <v-col
                     v-for="i in itemFields"
-                    cols="3"
+                    cols="12" sm="12" md="4" lg="3"
                 >
                     <v-combobox
                         :label="i.field.name"
                         v-model="i.value"
                         disabled=true
                     ></v-combobox>
+                </v-col>
+            </v-row>
+        </v-card>
+    </div>
+
+    <div class="mr-12 ml-12 mt-8">
+        <v-card
+            title="Warranty/Maintenance"
+            class="elevation-0" 
+        >
+            <v-checkbox
+                label="Has Warranty"
+                v-model="hasWarranty"
+                :disabled="!editMode"
+                color="blue"
+                class="mr-1 ml-1"
+            >
+            </v-checkbox>
+            <v-row class="mr-1 ml-1" v-if="hasWarranty">
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Warranty End Date"
+                        v-model="item.warrantyEnd"
+                        :disabled="!editMode"
+                    >
+                    </v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Warranty Status"
+                        v-model="warrantyStatus"
+                        disabled="true"
+                    >
+                    </v-text-field>
+                </v-col>
+            </v-row>
+            <v-checkbox
+                label="Preventative Maintenance"
+                v-model="hasMaintenance"
+                :disabled="!editMode"
+                color="blue"
+                class="mr-1 ml-1"
+            >
+            </v-checkbox>
+            <v-row class="mr-1 ml-1" v-if="hasMaintenance">
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-combobox
+                        label="Maintenance Schedule"
+                        v-model="repairSchedule"
+                        :items="repairTimes"
+                        :disabled="!editMode"
+                    ></v-combobox>
+                </v-col>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Last Maintained"
+                        v-model="lastRepair"
+                        disabled="true"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field
+                        label="Next Maintenance Date"
+                        v-model="nextRepair"
+                        disabled="true"
+                    ></v-text-field>
                 </v-col>
             </v-row>
         </v-card>
