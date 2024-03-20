@@ -15,7 +15,7 @@ export default {
   },
   getAllByManyCategories(categoryIds){
     const categoryIdsString = categoryIds.join(',');
-    return apiClient.get(`model/categories/${categoryIdsString}`);
+    return apiClient.get(`/model/categories/${categoryIdsString}`);
   },
   getAllFields(modelId){
     return apiClient.get(`/model/${modelId}/field`);
