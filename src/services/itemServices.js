@@ -8,6 +8,10 @@ export default {
     getAllForModel(modelId){
         return apiClient.get(baseURL + `model/${modelId}`);
     },
+    getAllForManyCategories(categoryIds) {
+        const categoryIdsString = categoryIds.join(',');
+        return apiClient.get(baseURL + `categories/${categoryIdsString}`);
+    },
     getOne(itemId){
         return apiClient.get(baseURL + itemId);
     },
