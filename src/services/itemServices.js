@@ -19,5 +19,15 @@ export default {
     },
     delete(itemId){
         return apiClient.delete(baseURL + itemId);
+    },
+    //ITEM INFORMATION SERVICES
+    getAllInfo(){
+        return apiClient.get(baseURL + `info`);
+    },
+    getAllInfoForItem(itemId){
+        return apiClient.get(baseURL + `info/item/${itemId}`);
+    },
+    createInfo(data){
+        return apiClient.post(baseURL + `info`, data);
     }
 };
