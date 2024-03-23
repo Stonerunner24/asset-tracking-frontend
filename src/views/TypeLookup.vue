@@ -16,7 +16,7 @@
         { title: 'Action', align: "end"}
     ]);
     
-    async function getTypes(){
+    async function getTypes() {
         try {
             const response = await TypeServices.getAll();
             types.value = response.data;
@@ -26,13 +26,14 @@
         }
     }
 
-    function toggleTab(selectedTab) {
+    async function toggleTab(selectedTab) {
         tab.value = selectedTab;
         if (selectedTab === 'inactive') {
             hideBtn.value = 'activate';
         } else {
             hideBtn.value = 'deactivate';
         }
+        await getCategoryName();
     }
 
     async function hideType(type) {
@@ -47,15 +48,18 @@
 
     async function getCategoryName() {
         try {
-            for (let i = 0; i < filteredTypes.value.length; i++){
-                const response = await CategoryServices.get(filteredTypes.value[i].categoryId);
+            catNames.value = [];
+            const typesToFetch = tab.value === 'active' ? currentTypes.value.filter(c => c.active) : currentTypes.value;
+            for (let i = 0; i < typesToFetch.length; i++) {
+                const response = await CategoryServices.get(typesToFetch[i].categoryId);
                 catNames.value.push(response.data.catName);
             }
         } catch (error) {
             console.error("Error fetching category name:", error);
         }
     };
-    
+
+
     function viewType(type){
         router.push(`/typeview/${type.id}`);
     }
