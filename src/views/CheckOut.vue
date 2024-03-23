@@ -23,6 +23,9 @@
     const models = ref([]);
     const itemList = ref([]);
 
+    var response;
+    var cascade = true;
+
     function startDisplayDate() {
         if (startDatePicker.value == null) {
             const today = new Date();
@@ -62,51 +65,71 @@
         return (startDatePicker.value <= endDatePicker.value) ? true : false;
     }
 
-    async function getCategories() {
-        try {
-            const response = await CategoryServices.getAll();
-            categories.value = response.data;
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        }
-    }
-    async function getTypes() {
-        try {
-            const response = await TypeServices.getAll();
-            types.value = response.data;
-        } catch (error) {
-            console.error("Error fetching types:", error);
-        }
-    }
-    async function getModels() {
-        try {
-            const response = await ModelServices.getAll();
-            models.value = response.data;
-        } catch (error) {
-            console.error("Error fetching models:", error);
-        }
-    }
-    async function getItems() {
+    const retrieveData = async() => {
         try{
-            const response = await ItemServices.getAll();
+            //Retrieve categories
+            response = await CategoryServices.getAll();
+            categories.value = response.data;
+
+            //retrieve types
+            response = await TypeServices.getAll();
+            types.value = response.data;
+
+            //retrieve models
+            response = await ModelServices.getAll();
+            models.value = response.data;
+
+            // retrieve items
+            response = await ItemServices.getAll();
             itemList.value = response.data;
         }
         catch(err){
-            console.error(err);
+            console.error("There was some issue retrieving the data: " + err);
         }
     }
 
+    async function changeCategory(){
+        if (category.value == null){
+            await retrieveData();
+            activeType.value = null;
+            activeModel.value = null;
+        }
+        else if (categories.value) {
+            if (cascade) {
+                type.value = null;
+                model.value = null
+            }
+            let catId = categories.value.find(cat => cat.catName === category.value).id;
+            try {
+                response = await TypeServices.getAllForCategory(catId);
+                types.value =response.data;
+                models.value = [];
+                if (cascade){
+                    const promises = types.value.map(async (type) => {
+                        const typeModels = (await ModelServices.getAllByType(type.id)).data; 
+                        return typeModels;
+                    });
+
+                    const resolvedModels = await Promise.all(promises);
+
+
+                    models.value = resolvedModels.flat();
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        cascade = true;
+    }
+
     onMounted(async () => {
-        await getCategories();
-        await getTypes();
-        await getModels();
-        await getItems();
+        await retrieveData();
     })
 </script>
 
 <template>
+    <div>{{ category }}</div>
     <div class="ma-15 mt-7">
-        <div>{{ category }}</div>
         <v-row>
             <v-col><div style="font-size: x-large;">Check Out</div></v-col>
             <v-col></v-col>
@@ -185,7 +208,7 @@
                     <v-card flat color="gray" class="pa-5" style="width:80%">
                         <div>Item</div>
                         <div style="width: 100%;">
-                            <v-combobox color="blue" label="Category" placeholder="Category Name" v-bind="category" :items="categories" item-title="catName"></v-combobox>
+                            <v-combobox color="blue" label="Category" placeholder="Category Name" v-model="category" :title="category.catName" :items="categories" item-title="catName" @update:modelValue="changeCategory()"></v-combobox>
                             <v-combobox color="blue" label="Type" placeholder="Type Name" v-bind="type" :items="types" item-title="typeName"></v-combobox>
                             <v-combobox color="blue" label="Model" placeholder="Model Name" v-bind="model" :items="models" item-title="model"></v-combobox>
                             <v-combobox color="blue" label="Serial Number" placeholder="Item Serial Number" v-bind="item" :items="itemList" item-title="serialNum"></v-combobox>
