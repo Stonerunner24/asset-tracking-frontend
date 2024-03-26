@@ -12,6 +12,7 @@
     "test:open": "cypress open"
   },
   "dependencies": {
+    "@formkit/tempo": "^0.0.17",
     "@mdi/font": "^7.0.96",
     "axios": "^1.1.3",
     "dotenv": "^16.0.3",

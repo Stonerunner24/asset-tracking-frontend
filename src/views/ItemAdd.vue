@@ -23,7 +23,7 @@ var cascade = true;
 
 const serialNum = ref(null);
 const prodYear = ref(null);
-const warrantyEnd = ref(null);
+// const warrantyEnd = ref(null);
 
 const fieldValues = ref(Array.from({ length: typeFields.value.length }, () => ''));
 var response;
