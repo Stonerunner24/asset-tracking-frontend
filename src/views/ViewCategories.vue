@@ -11,7 +11,7 @@
   const headers = ref([
     { title: 'Name', value: "catName" },
     { title: 'Action', align: "end"}
-  ])
+  ]);
   
   async function getCategory() {
     try {
@@ -54,15 +54,15 @@
   }
   
   async function hideCategory(category) {
-  try {
-    let data = { active: tab.value === 'inactive' ? 1 : 0 };
-    await CategoryServices.update(category.id, data);
+    try {
+      let data = { active: tab.value === 'inactive' ? 1 : 0 };
+      await CategoryServices.update(category.id, data);
 
-    await getCategory();
-  } catch (error) {
-    console.error("Error hiding/unhiding category:", error);
+      await getCategory();
+    } catch (error) {
+      console.error("Error hiding/unhiding category:", error);
+    }
   }
-}
 
   onMounted(async () => {
     await getCategory();
@@ -96,7 +96,6 @@
       </v-data-table>
   
       <!-- Add Category Display -->
-      <!-- ? does not call only Associated types but all types -->
       <div class="pt-10">
         <div style="font-size: large;">Add New Category</div>
         <v-card color="gray" class="pa-4">
