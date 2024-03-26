@@ -10,6 +10,13 @@ export default {
   getAllByType(typeId){
     return apiClient.get(`/model/type/${typeId}`);
   },
+  getAllByCategory(categoryId){
+    return apiClient.get(`/model/category/${categoryId}`);
+  },
+  getAllByManyCategories(categoryIds){
+    const categoryIdsString = categoryIds.join(',');
+    return apiClient.get(`/model/categories/${categoryIdsString}`);
+  },
   getAllFields(modelId){
     return apiClient.get(`/model/${modelId}/field`);
   },
