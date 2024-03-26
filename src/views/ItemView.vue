@@ -28,16 +28,18 @@
     const notesModal = ref(false);
 
     //Computed Variables
+    const receivedDate = computed(() => format(item.value.receivedDate, 'short'));
     const warrantyStatus = computed(() => {
         let warranty = new Date(item.value.warrantyEnd);
         let curDate = new Date();
         return warranty > curDate ? 'Under Warranty' : 'Past Warranty';
     });
     const lastRepair = computed(() => {
-        return repairs.value ? repairs.value[repairs.value.length - 1].date : 'No maintenance history.';
+        return repairs.value[0] ? repairs.value[repairs.value.length - 1].date : 'No maintenance history.';
     });
     const nextRepair = computed(() => {
-        let date = lastRepair.value ? new Date(lastRepair.value) : new Date(item.value.receivedDate);
+        let date = repairs.value[0] ? new Date(lastRepair.value) : new Date(item.value.receivedDate);
+        // console.log(item.value.receivedDate);
         return format(addMonth(date, item.value.repairSchedule, true), 'short');
     });
     
@@ -58,6 +60,7 @@
             //Warranty and Maintenance info
             hasWarranty.value = item.value.warrantyEnd != null ? true : false;
             hasMaintenance.value = item.value.repairSchedule != null ? true : false;
+            console.log(hasMaintenance.value);
 
             //Model Type and Category
             model.value = response.data.model;
@@ -218,12 +221,13 @@
                     </v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field label="Received" v-model="receivedDate" readonly :disabled="editMode">
+                    </v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="4" lg="3">
                     <v-text-field label="Status" v-model="item.status" readonly :disabled="editMode">
                     </v-text-field>
                 </v-col>
-
-            </v-row>
-            <v-row class="mr-1 ml-1">
                 <v-col v-for="i in itemFields" cols="12" sm="12" md="4" lg="3">
                     <v-combobox :label="i.field.name" v-model="i.value" readonly></v-combobox>
                 </v-col>
