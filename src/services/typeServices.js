@@ -7,6 +7,10 @@ export default {
   getAllForCategory(categoryId) {
     return apiClient.get(`/type/category/${categoryId}`);
   },
+  getAllForManyCategories(categoryIds){
+    const categoryIdsString = categoryIds.join(',');
+    return apiClient.get(`/type/categories/${categoryIdsString}`);
+  },
   get(id) {
     return apiClient.get(`/type/${id}`);
   },
