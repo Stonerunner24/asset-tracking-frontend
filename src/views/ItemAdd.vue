@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
+import {format, parse} from "@formkit/tempo";
 import ItemServices from "../services/itemServices";
 import CategoryServices from "../services/categoryServices";
 import TypeServices from "../services/typeServices";
@@ -21,11 +22,24 @@ const activeModel = ref();
 const modelFields = ref([]);
 var cascade = true;
 
-const serialNum = ref(null);
-const prodYear = ref(null);
+const hasWarranty = ref(false);
 const warrantyEnd = ref(null);
 
+const hasMaintenance = ref(false);
+const repairSchedule = ref('');
+
 const fieldValues = ref(Array.from({ length: typeFields.value.length }, () => ''));
+
+const items = ref([{
+    serialNum: '',
+    initialValue: '', 
+    prodYear: '', 
+    warrantyEnd: null,
+    repairSchedule: null,
+    modelId: null,
+    itemFields: []
+}]);
+
 var response;
 
 onMounted(async () => {
@@ -34,6 +48,7 @@ onMounted(async () => {
 
 const retrieveData = async () => {
     try {
+        console.log(items.value);
         //Retrieve categories
         response = await CategoryServices.getAll();
         categories.value = response.data;
@@ -116,8 +131,12 @@ const changeType = async (clearModel) => {
 
     response = await TypeServices.getAllItemFields(type.id);
     typeFields.value = response.data;
-    console.log(typeFields.value);
-
+    for(let item of items.value){
+        item.itemFields = Array.from({ length: typeFields.value.length }, (_, index) => ({
+            fieldId: typeFields.value[index].fieldId,
+            value: ""
+        }));
+    }
     //set models to only be models within this type
     response = await ModelServices.getAllByType(type.id);
     models.value = response.data;
@@ -142,7 +161,7 @@ const changeModel = async () => {
     try {
         const response = await ModelServices.getAllFields(model.id);
         modelFields.value = response.data;
-        console.log(modelFields.value);
+        console.log(items.value);
     }
     catch (err) {
         console.error(err);
@@ -153,28 +172,30 @@ const changeModel = async () => {
  *  BEGIN BUTTON FUNCTIONS
  ************************************************/
 const saveItem = async () => {
-    const itemFields = typeFields.value.map((typeField, index) => ({
-        ...typeField,
-        value: fieldValues.value[index],
-    }));
-    console.log(itemFields);
+    let model = models.value.find(model => model.model === activeModel.value);
+    if(warrantyEnd.value){
+        console.log(warrantyEnd.value);
+        warrantyEnd.value = parse(warrantyEnd.value, 'DD-MM-YYYY', 'en-US');
+    }
+    if(repairSchedule.value){
+        var schedule = repairSchedule.value.split(' ');
+    }
+    for (let item of items.value) {
+        console.log(item);
+        try {
+            item.modelId = model.id;
+            item.warrantyEnd = warrantyEnd.value ?? null;
+            item.repairSchedule = schedule ?? null;
 
-    const data = {
-        serialNum: serialNum.value,
-        productionYear: prodYear.value,
-        warrantyEnd: warrantyEnd.value,
-        modelId: models.value.find(model => model.model === activeModel.value).id,
-        itemFields: itemFields
-    };
-    console.log(data);
-    try {
-        await ItemServices.create(data);
-        console.log('created item');
-        clearFields();
+            let response = await ItemServices.create(item);
+            let itemId = response.data.id;
+
+            await ItemServices.bulkCreateFields(itemId, item.itemFields);
+        } catch (error) {
+            console.error('Error processing item:', error);
+        }
     }
-    catch (err) {
-        console.error(err);
-    }
+    await clearAll();
 };
 
 const cancel = () => {
@@ -182,24 +203,40 @@ const cancel = () => {
 };
 
 const clearFields = () => {
-    serialNum.value = null;
-    warrantyEnd.value = null;
-    prodYear.value = null;
-    console.log(fieldValues.value);
-    //had to use a classic for loop here because the fancy ones weren't doing what I wanted them to.
-    for (let x = 0; x < fieldValues.value.length; x++) {
-        fieldValues.value[x] = null;
+    for(let item of items.value){
+        item.serialNum = '';
+        item.initialValue = '';
+        item.prodYear = '';
+        for(let field of item.itemFields){
+            field.value = '';
+        }
+        warrantyEnd.value = null;
+        repairSchedule.value = null;
     }
     console.log(fieldValues.value);
 };
 
 const clearAll = async () => {
     clearFields();
-    activeModel.value = null;
     activeCat.value = null;
     activeType.value = null;
-    modelFields.value = null;
+    activeModel.value = null;
+    hasMaintenance.value = false;
+    hasWarranty.value = false;
     await retrieveData();
+};
+
+const addNew = () => {
+    let newItem = {
+        serialNum: '', 
+        initialValue: '', 
+        prodYear: '', 
+        itemFields: Array.from({ length: typeFields.value.length }, (_, index) => ({
+            fieldId: typeFields.value[index].fieldId,
+            value: ""
+        }))
+    }
+    items.value.push(newItem);
 }
 </script>
 
@@ -210,71 +247,136 @@ const clearAll = async () => {
     <div class="ml-12 mr-12 mt-8">
         <v-row>
             <v-col class="text-left">
-                <v-combobox label="Category" v-model="activeCat" @update:modelValue="changeCategory"
-                    :items="catNames"></v-combobox>
+                <v-combobox 
+                    label="Category" 
+                    v-model="activeCat" 
+                    @update:modelValue="changeCategory"
+                    :items="catNames"
+                ></v-combobox>
             </v-col>
             <v-col class="text-left">
-                <v-combobox label="Type" v-model="activeType" @update:modelValue="changeType(true)"
-                    :items="typeNames"></v-combobox>
+                <v-combobox 
+                    label="Type" 
+                    v-model="activeType" 
+                    @update:modelValue="changeType(true)"
+                    :items="typeNames"
+                ></v-combobox>
             </v-col>
             <v-col>
-                <v-combobox label="Model" v-model="activeModel" @update:modelValue="changeModel"
-                    :items="modelNames"></v-combobox>
+                <v-combobox 
+                    label="Model" 
+                    v-model="activeModel" 
+                    @update:modelValue="changeModel"
+                    :items="modelNames"
+                ></v-combobox>
             </v-col>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
         </v-row>
     </div>
     <div class="ml-12 mr-12">
-        <v-card v-if="activeModel" :title="activeModel" color="card" class="pb-4">
+        <v-card 
+            v-if="activeModel" 
+            :title="activeModel" 
+            color="card" 
+            class="pb-4"
+        >
             <v-row class="mr-1 ml-1" v-if="modelFields">
                 <v-col v-for="m in modelFields" cols="3">
-                    <v-text-field :label="m.field.name" v-model="m.value" disabled=true></v-text-field>
+                    <v-text-field 
+                        :label="m.field.name" 
+                        v-model="m.value" 
+                        :disabled='true'
+                    ></v-text-field>
                 </v-col>
             </v-row>
         </v-card>
     </div>
-    <div class="ml-12 mr-12 mt-4">
+    <div class="ml-12 mr-12 mt-4" v-for="item in items">
         <v-card v-if="activeType" title="Item Fields" class="elevation-0">
             <v-row class="mr-1 ml-1">
-                <v-col class="text-left">
-                    <v-text-field label="Serial Number" v-model="serialNum">
-                    </v-text-field>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field 
+                        label="Serial Number" 
+                        v-model="item.serialNum" 
+                    ></v-text-field>
                 </v-col>
-                <v-col class="text-left">
-                    <v-text-field label="Production Year" v-model="prodYear">
-                    </v-text-field>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field 
+                        label="Purchase Price" 
+                        v-model="item.initialValue" 
+                    ></v-text-field>
                 </v-col>
-                <v-col class="text-left">
-                    <v-text-field label="Warranty End" v-model="warrantyEnd">
-                    </v-text-field>
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field 
+                        label="Production Year" 
+                        v-model="item.prodYear" 
+                    ></v-text-field>
                 </v-col>
-            </v-row>
-            <v-row class="mr-1 ml-1">
-                <v-col v-for="(t, index) in typeFields" :key="index" cols="3">
-                    <v-text-field :label="t.field.name" v-model="fieldValues[index]">
-                    </v-text-field>
+                <v-col 
+                    cols="12" sm="12" md="4" lg="3" 
+                    v-for="(t, index) in typeFields" 
+                    :key="index"
+                >
+                    <v-text-field 
+                        :label="t.field.name" 
+                        v-model="item.itemFields[index].value"
+                    ></v-text-field>
                 </v-col>
             </v-row>
         </v-card>
     </div>
-    <div class="ml-12 mr-12" style="float:right">
+    <div class="mr-12 ml-12 mt-8" v-if="activeModel">
+        <v-card title="Warranty/Maintenance" class="elevation-0">
+            <v-checkbox label="Has Warranty" v-model="hasWarranty" color="blue" class="mr-1 ml-1">
+            </v-checkbox>
+            <v-row class="mr-1 ml-1" v-if="hasWarranty">
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-text-field label="Warranty End Date" v-model="warrantyEnd" >
+                    </v-text-field>
+                </v-col>
+            </v-row>
+            <v-checkbox label="Preventative Maintenance" v-model="hasMaintenance" color="blue"
+                class="mr-1 ml-1">
+            </v-checkbox>
+            <v-row class="mr-1 ml-1" v-if="hasMaintenance">
+                <v-col cols="12" sm="12" md="4" lg="3">
+                    <v-combobox 
+                        label="Maintenance Schedule" 
+                        v-model="repairSchedule" 
+                        :items="['6 Months', '12 Months', '18 Months', '24 Months']"
+                    ></v-combobox>
+                </v-col>
+            </v-row>
+        </v-card>
+    </div>
+    <div class="ml-12 mr-12">
         <v-row>
-            <v-col class="ml-16 text-right">
-                <v-btn color="gray" @click="cancel">
-                    Cancel
+            <v-col class="text-left" style="display:flex; justify-content: left;">
+                <v-btn color="darkgray" @click="addNew" v-if="activeModel">
+                    Add Another Item
                 </v-btn>
             </v-col>
-            <v-col class="text-right">
-                <v-btn color="darkgray" @click="clearAll">
-                    Clear
-                </v-btn>
+            <v-col>
+                <v-row style="float:right">
+                    <v-col class="ml-16 text-right">
+                        <v-btn color="gray" @click="cancel">
+                            Cancel
+                        </v-btn>
+                    </v-col>
+                    <v-col class="text-right">
+                        <v-btn color="darkgray" @click="clearFields">
+                            Clear
+                        </v-btn>
+                    </v-col>
+                    <v-col class="text-right" v-if="activeModel">
+                        <v-btn color="blue" @click="saveItem">
+                            Save Item(s)
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-col>
-            <v-col class="text-right" v-if="activeModel">
-                <v-btn color="blue" @click="saveItem">
-                    Add New Item
-                </v-btn>
-            </v-col>
+            
         </v-row>
     </div>
 </template>
