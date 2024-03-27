@@ -7,10 +7,13 @@ import ItemServices from "../services/itemServices";
 import typeServices from "../services/typeServices";
 const type = ref({});
 const models = ref([]);
+const modelFields = ref([]);
+const typeFields = ref([]);
 const isActive = ref();
 const typeName = ref();
+var isEditable = null;
 const headers = [
-    {title: "Model", value: 'model.model'}
+    {title: "Models", value: 'model.model'}
 ]
 onMounted(async()=>{
     const route = useRoute();
@@ -40,7 +43,38 @@ const retrieveModels = async(route) =>{
         const response = await ModelServices.getAllByType(route.params.id);
         models.value = response.data;
         console.log("models:\n");
-        console.log(models.value.data);
+        console.log(models.value);
+        console.log(models.value.length);
+        if(models.value.length === 0){
+            isEditable = true;
+        }
+        else{ 
+            isEditable = false;
+        }
+            
+
+        console.log(editable)
+    }
+    catch(err){
+        console.log(err.message);
+    }
+}
+
+const retrieveModelFields = async(route) =>{
+    try{
+        console.log("retrieving model fields");
+        const response = await TypeServices.getAllModelsFields(route.params.id);
+        modelFields.value = response.data;
+    }
+    catch(err){
+        console.log(err.message);
+    }
+}
+const retrieveTypeFields = async(route) =>{
+    try{
+    console.log("retrieving type fields");
+    const repsonse = await TypeServices.getAllTypeFields(route.params.id);
+    typeFields.value = response.data;
     }
     catch(err){
         console.log(err.message);
@@ -54,10 +88,10 @@ const retrieveModels = async(route) =>{
     <div class="ml-12 mr-12">
         <v-row>
             <v-col>
-                <v-checkbox label="active" v-model="isActive" :disabled="true"></v-checkbox>
+                <v-checkbox label="Active" v-model="isActive" :disabled="!isEditable"></v-checkbox>
             </v-col>
             <v-col class="text-left">
-                <v-text-field label="name" v-model="typeName" :disabled="true"></v-text-field>
+                <v-text-field label="Name" v-model="typeName" :disabled="!isEditable"></v-text-field>
 
             </v-col>
         </v-row>
@@ -68,7 +102,7 @@ const retrieveModels = async(route) =>{
         :items="models">
         <template v-slot:item="{item}">
             <tr>
-                <td>{{  item.model.model }}</td>
+                <td>{{  item.model }}</td>
             </tr>
         </template>
     </v-data-table>
