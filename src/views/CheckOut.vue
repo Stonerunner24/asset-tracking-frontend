@@ -175,8 +175,23 @@
         response = await ItemServices.getAllForModel(selectedModel.id);
         itemList.value = response.data;
         itemNames.value = itemList.value.map(selectedItem => selectedItem.serialNum);
-        console.log(itemNames)
     };
+    const changeItem = async () => {
+        const selectedItem = itemList.value.find(selectedItem => selectedItem.serialNum === item.value);
+
+        model.value = models.value.find(model => model.id === selectedItem.modelId).model;
+        cascade = false;
+        await changeModel();
+
+        type.value = types.value.find(type => type.id === selectedItem.typeId).typeName;
+        cascade = false;
+        await changeType(false);
+
+        category.value = categories.value.find(category => category.id === selectedItem.model.type.categoryId).catName;
+        cascade = false;
+        await changeCategory();
+    };
+
 
     onMounted(async () => {
         await retrieveData();
@@ -292,6 +307,7 @@
                                 placeholder="Item Serial Number" 
                                 v-model="item" 
                                 :items="itemNames"
+                                @update:modelValue="changeItem"
                             ></v-combobox>
                         </div>
                     </v-card>
