@@ -122,7 +122,7 @@
         response = await ModelServices.getAllByType(type.id);
         models.value = response.data;
         modelNames.value = models.value.map(model => model.model);
-console.log(modelFields);
+        console.log(modelFields);
         if(clearModel) modelFields.value = [];
     };
 
