@@ -3,121 +3,77 @@
 import {ref} from 'vue';
 import router from '../router';
 
-function goToHome(){
-    router.push("/home")
-}
-function goToItemLookup(){
-    router.push("/itemlookup")
-}
-function goToCheckIn(){
-    router.push("/")
-}
-function goToCheckOut(){
-    router.push("/")
-}
-function goToModelLookup(){
-    router.push("modellookup")
+function goToPage(page){
+    router.push(page);
 }
 
-const System = ref(false);
+const permission = 0;
+/*TODO: ONCE PERMISSIONS ARE FINISHED
+    GET USER ROLE
+    ASSIGN TO
+    0 - GUEST
+    1 - WORKER
+    2 - MANAGER
+    3 - ADMIN
+    DISPLAY LIST ITEM IF THE PERMISSION LEVEL IS LESS THAN OR EQUAL TO YOUR OWN
+*/
+
+const list = ref([
+    {title: 'Home', icon: 'mdi-home', link: '/home', permission: 0},
+    {title: 'Items', icon: 'mdi-barcode', link: '/itemlookup', permission: 1},
+    {title: 'Models', icon: 'mdi-laptop', link: '/modellookup', permission: 1},
+    {title: 'Types', icon: 'mdi-signal', link: '/typelookup', permission: 2},
+    {title: 'Categories', icon: '', link: 'viewcategories', permission: 3},
+    {title: 'Buildings', icon: 'mdi-city-variant', link: '/buildinglookup', permission: 2},
+    {title: 'People', icon: 'mdi-account', link: '/peoplelookup', permission: 2},
+    {title: 'Check In', icon: 'mdi-login', link: '/checkin', permission: 1},
+    {title: 'Check Out', icon: 'mdi-logout', link: '/checkout', permission: 1},
+    {title: 'Add Repair', icon: 'mdi-wrench', link: '/repairadd', permission: 1},
+    {title: 'Reports', icon: 'mdi-file-document', link: '/reports', permission: 2},
+]);
+
+const system = ref(false);
+const groupList = ref([
+    {title: 'Categories', link: '/viewcategories'},
+    {title: 'Fields', link: '/'},
+    {title: 'Vendors', link: '/'},
+    {title: 'Users', link: ''}
+]);
 
 </script>
 <template>
-    <div>
-        <v-navigation-drawer
-            disable-resize-watcher
-            expand-on-hover
-            rail
-            color="silver"
-            width="200"
-            floating="true"
-            permanent="true"
-        >
-            <v-list>
-                <v-list-item
-                    prepend-icon="mdi-home"
-                    title="Home" 
-                    v-on:click="goToHome()"
-                >
-                </v-list-item>
-                <v-list-item
-                    prepend-icon="mdi-barcode"
-                    title="Items"
-                    v-on:click="goToItemLookup()"
-                >
-                </v-list-item>
-                <V-list-item
-                    prepend-icon="mdi-laptop"
-                    title="Models"
-                    v-on:click="goToModelLookup()"
-                >
-                </V-list-item>
-                <V-list-item
-                    prepend-icon="mdi-signal"
-                    title="Types"
-                    v-on:click="goToModelLookup()"
-                >
-                </V-list-item>
-                <V-list-item
-                    prepend-icon="mdi-city-variant"
-                    title="Buildings"
-                    v-on:click="goToModelLookup()"
-                >
-                </V-list-item>
-                <V-list-item
-                    prepend-icon="mdi-account"
-                    title="People"
-                    v-on:click="goToModelLookup()"
-                >
-                </V-list-item>
-                <v-list-item
-                    prepend-icon="mdi-login"
-                    title="Check In"
-                    v-on:click="goToCheckIn()"
-                >
-                </v-list-item>
-                <v-list-item
-                    prepend-icon="mdi-logout"
-                    title="Check Out"
-                    v-on:click="goToCheckOut()"
-                >
-                </v-list-item>
-                <V-list-item
-                    prepend-icon="mdi-wrench"
-                    title="Add Repair"
-                    v-on:click="goToModelLookup()"
-                >
-                </V-list-item>
-                <V-list-item
-                    prepend-icon="mdi-file-document"
-                    title="Reports"
-                    v-on:click="goToModelLookup()"
-                >
-                </V-list-item>
-                <v-list-group
-                    v-model="System"
-                >
-                    <template v-slot:activator="{props}">
-                        <v-list-item
-                            title="System"
-                            prepend-icon="mdi-cog"
-                            v-bind="props"
-                        ></v-list-item>
-                    </template>
+<div>
+    <v-navigation-drawer
+        disable-resize-watcher
+        expand-on-hover
+        rail
+        color="silver"
+        width="200"
+        :floating="true"
+        :permanent="true"
+    >
+        <v-list density="compact">
+            <v-list-item v-for="item in list"
+                :prepend-icon="item.icon"
+                :title="item.title" 
+                v-on:click="goToPage(item.link)"
+            ></v-list-item>
+            <v-list-group v-model="system" :value="system">
+                <template v-slot:activator="{props}">
                     <v-list-item
-                        title="Categories"
+                        title="System"
+                        prepend-icon="mdi-cog"
+                        v-bind="props"
                     ></v-list-item>
-                    <v-list-item
-                        title="Fields"
-                    ></v-list-item>
-                    <v-list-item
-                        title="Vendors"
-                    ></v-list-item>
-                    <v-list-item
-                        title="Users"
-                    ></v-list-item>
-                </v-list-group>
-            </v-list>
-        </v-navigation-drawer>
-    </div>
+                </template>
+                <v-list-item
+                    v-for="item in groupList"
+                    :title="item.title"
+                    :value="item.title"
+                    v-on:click="goToPage(item.link)"
+                ></v-list-item>
+            </v-list-group>
+        </v-list>
+    </v-navigation-drawer>
+</div>
 </template>
